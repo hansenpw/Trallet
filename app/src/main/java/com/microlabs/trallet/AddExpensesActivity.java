@@ -12,23 +12,24 @@ import android.widget.Toast;
 
 import com.microlabs.trallet.adapter.CategorySpinnerAdapter;
 import com.microlabs.trallet.adapter.CurrencySpinnerAdapter;
-import com.microlabs.trallet.base.RealmHelper;
 import com.microlabs.trallet.model.Category;
 import com.microlabs.trallet.model.Currency;
 import com.microlabs.trallet.model.Expense;
+import com.microlabs.trallet.presenter.AddExpenseActivityPresenter;
+import com.microlabs.trallet.repo.DatabaseBookRepository;
+import com.microlabs.trallet.view.AddExpenseView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
-public class AddExpensesActivity extends AppCompatActivity {
 
-    int bookId;
-    int fromAdapterChecker; //Expense Id
+public class AddExpensesActivity extends AppCompatActivity implements AddExpenseView {
+
+    private static final int REQUEST_IMAGE = 1;
 
     @BindView(R.id.txtExTitle)
     EditText txtExTitle;
@@ -40,35 +41,36 @@ public class AddExpensesActivity extends AppCompatActivity {
     Spinner spinnerCategory;
     @BindView(R.id.txtDescription)
     EditText txtDescription;
-    Expense expense;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+//    @BindView(R.id.imgExpense)
+//    ImageView imgExpense;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    ArrayList<Category> listCategory;
-    ArrayList<Currency> listCurrency;
-    Realm realm;
-    CategorySpinnerAdapter adapterCat;
-    CurrencySpinnerAdapter adapterCurr;
-
-    @BindView(R.id.btnEditExpense)
-    FloatingActionButton btnEditExpense;
-    @BindView(R.id.btnAddExpense)
-    FloatingActionButton btnAddExpense;
+    private int bookId;
+    private int fromAdapterChecker; //Expense Id
     private double oldValue;
+
+    private CategorySpinnerAdapter adapterCat;
+    private CurrencySpinnerAdapter adapterCurr;
+    private AddExpenseActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expenses);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
+
+        presenter = new AddExpenseActivityPresenter(this, new DatabaseBookRepository());
 
         setUp();
 
         if ((bookId = getIntent().getIntExtra("bookId", -1)) != -1) {
             if ((fromAdapterChecker = getIntent().getIntExtra("fromAdapter", 0)) != 0) {
-                expense = realm.where(Expense.class).equalTo(Expense.fId, fromAdapterChecker).findFirst();
-                setUpData(expense);
+                presenter.getExpenseData(fromAdapterChecker);
             }
         }
     }
@@ -82,82 +84,116 @@ public class AddExpensesActivity extends AppCompatActivity {
     }
 
     private void setUp() {
-        if (realm == null) {
-            realm = Realm.getDefaultInstance();
-        }
-        listCategory = new ArrayList<>();
-        listCurrency = new ArrayList<>();
-        listCategory.addAll(realm.where(Category.class).findAll());
-        listCurrency.addAll(realm.where(Currency.class).findAll());
-
-        adapterCat = new CategorySpinnerAdapter(AddExpensesActivity.this, R.layout.item_category, listCategory);
-        spinnerCategory.setAdapter(adapterCat);
-
-        adapterCurr = new CurrencySpinnerAdapter(AddExpensesActivity.this, R.layout.item_category, listCurrency);
-        spinnerCurrency.setAdapter(adapterCurr);
-        btnAddExpense.setVisibility(View.VISIBLE);
-        btnEditExpense.setVisibility(View.GONE);
+        presenter.setupCategorySpinner();
+        presenter.setupCurrencySpinner();
     }
 
-    private void setUpData(Expense expense) {
+    /*@OnClick({R.id.fab, R.id.imgExpense})
+    public void onClick(View view) {
+        if (view.getId() == R.id.imgExpense) {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_IMAGE);
+        } else {
+            if (txtExValue.getText().toString().isEmpty() || txtExTitle.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please Input All Required Data", Toast.LENGTH_SHORT).show();
+            } else {
+                double value = Double.parseDouble(txtExValue.getText().toString());
+                if (fromAdapterChecker == 0) {
+                    presenter.saveNewExpense(txtExTitle.getText().toString(), bookId, value,
+                            ((Category) spinnerCategory.getSelectedItem()).getId(),
+                            ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                            Calendar.getInstance().getTime(), txtDescription.getText().toString());
+                } else {
+                    presenter.updateExpense(fromAdapterChecker, txtExTitle.getText().toString(), bookId, value,
+                            ((Category) spinnerCategory.getSelectedItem()).getId(),
+                            ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                            Calendar.getInstance().getTime(), txtDescription.getText().toString(), oldValue);
+                }
+            }
+        }
+    }*/
+
+    @OnClick({R.id.fab})
+    public void onClick(View view) {
+        /*if (view.getId() == R.id.imgExpense) {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_IMAGE);
+        } else {*/
+        if (txtExValue.getText().toString().isEmpty() || txtExTitle.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please Input All Required Data", Toast.LENGTH_SHORT).show();
+        } else {
+            double value = Double.parseDouble(txtExValue.getText().toString());
+            if (fromAdapterChecker == 0) {
+                presenter.saveNewExpense(txtExTitle.getText().toString(), bookId, value,
+                        ((Category) spinnerCategory.getSelectedItem()).getId(),
+                        ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                        Calendar.getInstance().getTime(), txtDescription.getText().toString());
+            } else {
+                presenter.updateExpense(fromAdapterChecker, txtExTitle.getText().toString(), bookId, value,
+                        ((Category) spinnerCategory.getSelectedItem()).getId(),
+                        ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                        Calendar.getInstance().getTime(), txtDescription.getText().toString(), oldValue);
+            }
+        }
+//        }
+    }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri imageData = data.getData();
+            imgExpense.setImageURI(imageData);
+
+            *//*final String[] column = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(imageData, column, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                String filepath = cursor.getString(cursor.getColumnIndex(column[0]));
+                cursor.close();
+
+                imgExpense.setImageBitmap(BitmapFactory.decodeFile(filepath));
+            }*//*
+        }
+    }*/
+
+    @Override
+    public void setupData(Expense expense) {
         txtExTitle.setText(expense.getTitle());
         txtDescription.setText(expense.getDetails());
         txtExValue.setText(String.valueOf(expense.getValue()));
         oldValue = expense.getValue();
         spinnerCurrency.setSelection(adapterCurr.getPosition(expense.getCurrencyId()));
         spinnerCategory.setSelection(adapterCat.getPosition(expense.getCategoryId()));
-        btnAddExpense.setVisibility(View.GONE);
-        btnEditExpense.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.btnAddExpense, R.id.btnEditExpense})
-    public void onClick(View view) {
-        if (txtExValue.getText().toString().isEmpty() || txtExTitle.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Please Input All Required Data", Toast.LENGTH_SHORT).show();
-        } else {
-            double value = Double.parseDouble(txtExValue.getText().toString());
-            switch (view.getId()) {
-                case R.id.btnAddExpense:
-                    realm.beginTransaction();
-                    Expense expense = realm.createObject(Expense.class);
-                    expense.setId(realm);
-                    expense.setTitle(txtExTitle.getText().toString());
-                    expense.setValue(value);
+    @Override
+    public void showError() {
+        Toast.makeText(this, "Fail to Save Expense", Toast.LENGTH_SHORT).show();
+    }
 
-                    Category cat = (Category) spinnerCategory.getSelectedItem();
-                    expense.setCategoryId(cat.getId());
-                    Currency curr = (Currency) spinnerCurrency.getSelectedItem();
-                    expense.setCurrencyId(curr.getId());
+    @Override
+    public void setupCategorySpinner(List<Category> categoryList) {
+        adapterCat = new CategorySpinnerAdapter(AddExpensesActivity.this, R.layout.item_category, categoryList);
+        spinnerCategory.setAdapter(adapterCat);
+    }
 
-                    expense.setDetails(txtDescription.getText().toString());
-                    expense.setBookId(bookId);
-                    expense.setDate(Calendar.getInstance().getTime());
+    @Override
+    public void setupCurrencySpinner(List<Currency> currencyList) {
+        adapterCurr = new CurrencySpinnerAdapter(AddExpensesActivity.this, R.layout.item_category, currencyList);
+        spinnerCurrency.setAdapter(adapterCurr);
+    }
 
-                    realm.commitTransaction();
+    @Override
+    public void done() {
+        finish();
+    }
 
-                    RealmHelper.setBookTotal(realm, bookId, value);
-
-                    realm.close();
-
-                    finish();
-                    break;
-                case R.id.btnEditExpense:
-                    realm.beginTransaction();
-                    Expense expenses = realm.where(Expense.class).equalTo(Expense.fId, fromAdapterChecker).findFirst();
-                    expenses.setTitle(txtExTitle.getText().toString());
-                    expenses.setValue(value);
-                    expenses.setDetails(txtDescription.getText().toString());
-                    Category cat1 = (Category) spinnerCategory.getSelectedItem();
-                    expenses.setCategoryId(cat1.getId());
-                    Currency curr1 = (Currency) spinnerCurrency.getSelectedItem();
-                    expenses.setCurrencyId(curr1.getId());
-                    expenses.setDate(Calendar.getInstance().getTime());
-                    realm.commitTransaction();
-                    RealmHelper.setBookEdit(realm, bookId, oldValue, value);
-                    realm.close();
-                    finish();
-                    break;
-            }
-        }
+    @Override
+    protected void onDestroy() {
+        presenter.close();
+        super.onDestroy();
     }
 }

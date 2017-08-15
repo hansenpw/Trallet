@@ -1,7 +1,6 @@
 package com.microlabs.trallet.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,23 +10,23 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.microlabs.trallet.R;
-import com.microlabs.trallet.base.RealmHelper;
-import com.microlabs.trallet.model.Category;
 import com.microlabs.trallet.model.Currency;
+import com.microlabs.trallet.repo.RealmHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Nicholas on 3/13/2017.
+ *
+ * Currency Spinner Custom Adapter
  */
 
 public class CurrencySpinnerAdapter extends ArrayAdapter<Currency> {
 
-    private ArrayList<Currency> mCurrency;
+    private List<Currency> mCurrency;
     private LayoutInflater inflater;
 
-    public CurrencySpinnerAdapter(Context context, int resource, ArrayList<Currency>list) {
+    public CurrencySpinnerAdapter(Context context, int resource, List<Currency> list) {
         super(context, resource, list);
         mCurrency = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

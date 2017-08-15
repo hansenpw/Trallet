@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.microlabs.trallet.AddNewCurrencyActivity;
+import com.microlabs.trallet.AddCurrencyActivity;
 import com.microlabs.trallet.R;
 import com.microlabs.trallet.model.Currency;
 
@@ -76,7 +76,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
 
         @OnClick(R.id.cvCurrency)
         public void onClick() {
-            Intent intent = new Intent(context, AddNewCurrencyActivity.class);
+            Intent intent = new Intent(context, AddCurrencyActivity.class);
             intent.putExtra("currId", item.getId());
             intent.putExtra("currName", item.getName());
             intent.putExtra("currValue", item.getValue());

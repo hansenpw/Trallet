@@ -20,27 +20,25 @@
 
             <TextView
                 android:id="@+id/txtCurrName"
+                style="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_toLeftOf="@+id/txtCurrPrice"
                 android:gravity="left"
-                android:hint="IDR Rp"
                 android:padding="16dp"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="IDR Rp" />
 
             <TextView
                 android:id="@+id/txtCurrPrice"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
                 android:gravity="right"
-                android:hint="1"
                 android:padding="16dp"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="1" />
 
         </RelativeLayout>
 

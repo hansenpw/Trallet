@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.microlabs.trallet.AddNewCurrencyActivity">
+    tools:context="com.microlabs.trallet.AddCurrencyActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -149,27 +149,28 @@
             android:hint="Input Description"
             android:inputType="textMultiLine" />
 
+        <!--<ImageView
+            android:id="@+id/imgExpense"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_double"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_double"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="#50000000"
+            android:padding="@dimen/activity_horizontal_margin_triple"
+            android:src="@drawable/ic_image_black_24dp" />-->
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAddExpense"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_done_black_24dp"
         android:tint="@color/colorWhite"
-        app:fabSize="auto" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnEditExpense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_done_black_24dp"
-        android:tint="@color/colorWhite"
-        android:visibility="gone"
         app:fabSize="auto" />
 
 </android.support.design.widget.CoordinatorLayout>

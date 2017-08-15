@@ -10,28 +10,38 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.microlabs.trallet.AddNewBookActivity"
+    tools:context="com.microlabs.trallet.AddBookActivity"
     tools:showIn="@layout/activity_add_new_book">
 
-    <EditText
-        android:id="@+id/lblTitle_AddNewBook"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/EtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtEditTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="textCapWords"
+            android:maxLength="30"
+            android:maxLines="1" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Book Title"
-        android:inputType="textCapWords"
-        android:maxLength="30"
-        android:maxLines="1"
-        android:padding="@dimen/activity_horizontal_margin" />
+        android:layout_below="@id/EtTitle">
 
-    <EditText
-        android:id="@+id/lblDesciption_AddNewBook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lblTitle_AddNewBook"
-        android:hint="Book Description (optional)"
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:padding="@dimen/activity_horizontal_margin" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtEditDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description (optional)"
+            android:inputType="textMultiLine"
+            android:maxLines="5" />
 
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

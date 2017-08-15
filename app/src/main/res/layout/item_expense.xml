@@ -17,37 +17,44 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/imgExpense"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="expense_category_indicator"
+                android:src="@drawable/ic_local_atm_black_24dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/layoutExBtn"
+                android:layout_toRightOf="@id/imgExpense"
                 android:orientation="vertical">
 
                 <!--Imageview-->
 
                 <TextView
                     android:id="@+id/txtExTitle"
-                    android:layout_width="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Title"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:text="Title" />
 
                 <TextView
                     android:id="@+id/txtExPrice"
-                    android:layout_width="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="start"
-                    android:hint="Price"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:textColor="#009900"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:text="Price"
+                    android:textColor="#009900" />
 
             </LinearLayout>
 

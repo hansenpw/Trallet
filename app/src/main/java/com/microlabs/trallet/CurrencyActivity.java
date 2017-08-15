@@ -2,62 +2,58 @@ package com.microlabs.trallet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.microlabs.trallet.adapter.CurrencyRVAdapter;
 import com.microlabs.trallet.model.Currency;
+import com.microlabs.trallet.presenter.CurrencyActivityPresenter;
+import com.microlabs.trallet.repo.DatabaseBookRepository;
+import com.microlabs.trallet.view.CurrencyActivityView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+import butterknife.OnClick;
 
-public class CurrencyActivity extends AppCompatActivity {
+public class CurrencyActivity extends AppCompatActivity implements CurrencyActivityView {
 
     @BindView(R.id.rvCurrency)
     RecyclerView rvCurrency;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    CurrencyRVAdapter currencyRVAdapter;
+    private CurrencyRVAdapter currencyRVAdapter;
+
+    private CurrencyActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currency);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvCurrency.setLayoutManager(manager);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CurrencyActivity.this, AddNewCurrencyActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        presenter = new CurrencyActivityPresenter(this, new DatabaseBookRepository());
         setUpUI();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.loadCurrency();
+    }
+
     private void setUpUI() {
-        Realm realm = Realm.getDefaultInstance();
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvCurrency.setLayoutManager(manager);
         currencyRVAdapter = new CurrencyRVAdapter(this);
-        currencyRVAdapter.updateList(realm.where(Currency.class).findAll());
         rvCurrency.setAdapter(currencyRVAdapter);
-        realm.close();
     }
 
     @Override
@@ -66,5 +62,22 @@ public class CurrencyActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showCurrencyList(List<Currency> currencyList) {
+        currencyRVAdapter.updateList(currencyList);
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        Intent intent = new Intent(CurrencyActivity.this, AddCurrencyActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.close();
     }
 }

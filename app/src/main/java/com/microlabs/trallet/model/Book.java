@@ -1,6 +1,6 @@
 package com.microlabs.trallet.model;
 
-import com.microlabs.trallet.base.RealmHelper;
+import com.microlabs.trallet.repo.RealmHelper;
 
 import io.realm.Realm;
 import io.realm.RealmObject;

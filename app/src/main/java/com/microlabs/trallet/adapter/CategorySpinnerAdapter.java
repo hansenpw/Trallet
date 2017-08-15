@@ -11,21 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.microlabs.trallet.R;
-import com.microlabs.trallet.base.RealmHelper;
 import com.microlabs.trallet.model.Category;
+import com.microlabs.trallet.repo.RealmHelper;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nicholas on 3/13/2017.
+ *
+ * Category Spinner Custom Adapter
  */
 
-public class CategorySpinnerAdapter extends ArrayAdapter<Category>{
+public class CategorySpinnerAdapter extends ArrayAdapter<Category> {
 
-    private ArrayList<Category> mCategory;
+    private List<Category> mCategory;
     private LayoutInflater inflater;
 
-    public CategorySpinnerAdapter(Context context, int resource, ArrayList<Category> categories) {
+    public CategorySpinnerAdapter(Context context, int resource, List<Category> categories) {
         super(context, resource, categories);
         mCategory = categories;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,7 +35,7 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category>{
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View v = inflater.inflate(R.layout.item_category,parent,false);
+        View v = inflater.inflate(R.layout.item_category, parent, false);
         TextView lblCategory = (TextView) v.findViewById(R.id.lblCategoryText);
         ImageView imgCategory = (ImageView) v.findViewById(R.id.imgCategory);
         lblCategory.setText(mCategory.get(position).getName());
@@ -57,7 +59,7 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View v = inflater.inflate(R.layout.item_category,parent,false);
+        View v = inflater.inflate(R.layout.item_category, parent, false);
         TextView lblCategory = (TextView) v.findViewById(R.id.lblCategoryText);
         ImageView imgCategory = (ImageView) v.findViewById(R.id.imgCategory);
         lblCategory.setText(mCategory.get(position).getName());

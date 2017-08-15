@@ -3,7 +3,6 @@ package com.microlabs.trallet;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,119 +12,94 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.microlabs.trallet.adapter.BookRVAdapter;
-import com.microlabs.trallet.base.RealmHelper;
 import com.microlabs.trallet.model.Book;
-import com.microlabs.trallet.model.Category;
-import com.microlabs.trallet.model.Currency;
+import com.microlabs.trallet.presenter.MainActivityPresenter;
+import com.microlabs.trallet.repo.DatabaseBookRepository;
+import com.microlabs.trallet.view.MainActivityView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityView {
 
     @BindView(R.id.rvBook)
     RecyclerView rv;
+    @BindView(R.id.txtEmpty)
+    TextView txtEmpty;
 
-    Realm realm;
     BookRVAdapter bookRVAdapter;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private MainActivityPresenter presenter;
+
+    /**
+     * Item Click Listener for Book RecyclerView
+     */
+    private BookItemListener itemListener = new BookItemListener() {
+        @Override
+        public void onDetailClick(int bookId, String bookTitle) {
+            Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
+            i.putExtra("bookId", bookId);
+            i.putExtra("lblTitle", bookTitle);
+            startActivity(i);
+        }
+
+        @Override
+        public void onDeleteClick(int bookId, String bookTitle) {
+            validateDeleteBook(bookId, bookTitle);
+        }
+
+        @Override
+        public void onEditClick(int bookId, String bookTitle, String bookDesc) {
+            Intent i = new Intent(MainActivity.this, AddBookActivity.class);
+            i.putExtra("id", bookId);
+            i.putExtra("lblTitle", bookTitle);
+            i.putExtra("lblDescription", bookDesc);
+            startActivity(i);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DatabaseBookRepository bookRepository = new DatabaseBookRepository();
+        presenter = new MainActivityPresenter(this, bookRepository);
+
+        setup();
+    }
+
+    private void setup() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new DefaultItemAnimator());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddNewBookActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        setUpUI();
-    }
-
-    public void updateAdapterList(){
-        // Update list of books sorted by its ID
-        bookRVAdapter.updateList(realm.where(Book.class).findAllSorted(Book.fId));
-    }
-
-    public void setUpUI() {
-        if (realm == null) {
-            realm = Realm.getDefaultInstance();
-        }
-        if (realm.where(Category.class).count() < 1) {
-            setDefaultCategory();
-        }
-        if (realm.where(Currency.class).count() < 1) {
-            setDefaultCurrency();
-        }
-        bookRVAdapter = new BookRVAdapter(this);
-        bookRVAdapter.updateList(realm.where(Book.class).findAllSorted(Book.fId));
+        bookRVAdapter = new BookRVAdapter(itemListener);
         rv.setAdapter(bookRVAdapter);
     }
 
-    /**
-     * Set up static default category
-     */
-    private void setDefaultCategory() {
-        for (int i = 0; i < 4; i++) {
-            realm.beginTransaction();
-            Category c = realm.createObject(Category.class);
-            c.setId(realm);
-            switch (i) {
-                case 0:
-                    c.setName("Foods");
-                    break;
-                case 1:
-                    c.setName("Transport");
-                    break;
-                case 2:
-                    c.setName("Shop");
-                    break;
-                case 3:
-                    c.setName("Others");
-                    break;
-            }
-            realm.commitTransaction();
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAdapterList();
     }
 
     /**
-     * Set up static default currency
+     * Update Data though Presenter
      */
-    private void setDefaultCurrency() {
-        for (int i = 0; i < 2; i++) {
-            realm.beginTransaction();
-            Currency c = realm.createObject(Currency.class);
-            c.setId(realm);
-            switch (i) {
-                case 0:
-                    c.setName("IDR Rp");
-                    c.setValue(1.0);
-                    break;
-                case 1:
-                    c.setName("USD $");
-                    c.setValue(13500.0);
-                    break;
-            }
-            realm.commitTransaction();
-        }
+    public void updateAdapterList() {
+        // Update list of books sorted by its ID
+        presenter.loadBooks();
     }
 
     @Override
@@ -137,23 +111,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_currency) {
-            Intent intent = new Intent(MainActivity.this, CurrencyActivity.class);
-            startActivity(intent);
+            presenter.toCurrency();
         } else if (item.getItemId() == R.id.menu_settings) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            presenter.toSettings();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.checkDefault();
+    }
+
+    @Override
     protected void onDestroy() {
         // Close Realm Instance when Activity is Destroyed to prevent memory leaks
-        realm.close();
+        presenter.close();
         super.onDestroy();
     }
 
+    /**
+     * Validation to Delete Book
+     *
+     * @param id    = bookId to remove
+     * @param title = bookTitle to remove
+     */
     public void validateDeleteBook(final int id, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete Confirmation");
@@ -162,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                RealmHelper.deleteBook(realm, id);
+                presenter.deleteBook(id);
                 updateAdapterList();
             }
         });
@@ -173,5 +157,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void showBooks(List<Book> books) {
+        txtEmpty.setVisibility(View.GONE);
+        rv.setVisibility(View.VISIBLE);
+        bookRVAdapter.updateList(books);
+    }
+
+    @Override
+    public void showNoBook(List<Book> books) {
+        rv.setVisibility(View.GONE);
+        txtEmpty.setVisibility(View.VISIBLE);
+        bookRVAdapter.updateList(books);
+        Toast.makeText(this, "There is no books.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToAddNewBook() {
+        Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToCurrency() {
+        Intent intent = new Intent(MainActivity.this, CurrencyActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToSettings() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.fab)
+    public void onViewClicked() {
+        presenter.addNewBook();
+    }
+
+    /**
+     * Item Click Listener Interface for Book RecyclerView
+     */
+    public interface BookItemListener {
+        void onDetailClick(int bookId, String bookTitle);
+
+        void onDeleteClick(int bookId, String bookTitle);
+
+        void onEditClick(int bookId, String bookTitle, String bookDesc);
     }
 }
