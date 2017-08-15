@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Trallet</string>
+    <string name="title_activity_add_new_book">Add New Book</string>
+    <string name="title_activity_edit_book">Edit Book</string>
+    <string name="title_activity_expense">Expense</string>
+    <string name="title_activity_currency">Currency</string>
+    <string name="title_activity_add_new_currency">Add New Currency</string>
+    <string name="title_activity_edit_expense">EditExpenseActivity</string>
+    <string name="title_activity_add_expense">Add New Expense</string>
+    <string name="title_activity_settings">Settings</string>
+</resources>

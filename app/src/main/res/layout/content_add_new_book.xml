@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_add_new_book"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.microlabs.trallet.AddNewBookActivity"
+    tools:showIn="@layout/activity_add_new_book">
+
+    <EditText
+        android:id="@+id/lblTitle_AddNewBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Book Title"
+        android:inputType="textCapWords"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:padding="@dimen/activity_horizontal_margin" />
+
+    <EditText
+        android:id="@+id/lblDesciption_AddNewBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblTitle_AddNewBook"
+        android:hint="Book Description (optional)"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:padding="@dimen/activity_horizontal_margin" />
+
+
+</RelativeLayout>
