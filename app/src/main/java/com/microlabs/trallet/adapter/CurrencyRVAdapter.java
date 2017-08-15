@@ -53,14 +53,24 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public void remove(int position) {
+        currencyList.remove(position);
+        notifyItemRemoved(position);
+    }
 
+    public void insert(Currency item, int position) {
+        currencyList.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public Currency item;
         @BindView(R.id.txtCurrName)
         TextView txtCurrName;
         @BindView(R.id.txtCurrPrice)
         TextView txtCurrPrice;
         DecimalFormat decimalFormat;
-        Currency item;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -85,38 +95,3 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

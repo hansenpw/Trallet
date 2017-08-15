@@ -22,8 +22,8 @@ import butterknife.OnClick;
  */
 public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder> {
 
-    List<Book> bookList = new ArrayList<>();
-    MainActivity.BookItemListener itemListener;
+    private List<Book> bookList = new ArrayList<>();
+    private MainActivity.BookItemListener itemListener;
 
     public BookRVAdapter(MainActivity.BookItemListener itemListener) {
         this.itemListener = itemListener;
@@ -73,10 +73,10 @@ public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder
             id = item.getId();
             lblDescription.setText(item.getDesc());
             lblTitle.setText(item.getTitle());
-            lblPrice.setText(String.valueOf(item.getTotal()));
+//            lblPrice.setText(String.valueOf(item.getTotal()));
         }
 
-        @OnClick({R.id.btnDetails, R.id.btnDelete, R.id.cvBooks, R.id.btnEditCard})
+        @OnClick({R.id.btnDetails, R.id.btnDelete, R.id.cvBooks, R.id.btnEditCard, R.id.btnAddExpense})
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetails:
@@ -86,11 +86,13 @@ public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder
                     itemListener.onDeleteClick(id, lblTitle.getText().toString());
                     break;
                 case R.id.cvBooks:
-                    itemListener.onDetailClick(id, lblTitle.getText().toString());
+                    itemListener.onBookClick(id, lblTitle.getText().toString());
                     break;
                 case R.id.btnEditCard:
                     itemListener.onEditClick(id, lblTitle.getText().toString(), lblDescription.getText().toString());
                     break;
+                case R.id.btnAddExpense:
+                    itemListener.onAddExpenseClick(id, lblTitle.getText().toString());
             }
         }
     }

@@ -132,7 +132,7 @@ public class DatabaseBookRepository {
      * @param expenseId = expenseId of Expense to remove
      */
     public void deleteExpense(int bookId, int expenseId) {
-        RealmHelper.setBookDelete(realm, bookId, expenseId);
+//        RealmHelper.setBookDelete(realm, bookId, expenseId);
         RealmHelper.deleteExpense(realm, expenseId);
     }
 
@@ -170,7 +170,7 @@ public class DatabaseBookRepository {
         expense.setBookId(bookId);
         expense.setDate(date);
         realm.commitTransaction();
-        RealmHelper.setBookTotal(realm, bookId, value);
+//        RealmHelper.setBookTotal(realm, bookId, value);
     }
 
     /**
@@ -221,7 +221,7 @@ public class DatabaseBookRepository {
         expense.setCurrencyId(currencyId);
         expense.setDate(date);
         realm.commitTransaction();
-        RealmHelper.setBookEdit(realm, bookId, oldValue, value);
+//        RealmHelper.setBookEdit(realm, bookId, oldValue, value);
     }
 
     /**
@@ -283,6 +283,26 @@ public class DatabaseBookRepository {
         realm.commitTransaction();
     }
 
+    public void deleteCurrencyNew(int id) {
+        if (realm.isInTransaction()) {
+            commitTransaction();
+        }
+        realm.beginTransaction();
+        realm.where(Currency.class).equalTo(Currency.fId, id).findFirst().deleteFromRealm();
+    }
+
+    public boolean commitTransaction() {
+        if (realm.isInTransaction()) {
+            realm.commitTransaction();
+            return true;
+        }
+        return false;
+    }
+
+    public void cancelTransaction() {
+        realm.cancelTransaction();
+    }
+
     /**
      * Save new Book
      *
@@ -295,7 +315,7 @@ public class DatabaseBookRepository {
         book.setId(realm);
         book.setTitle(title);
         book.setDesc(desc);
-        book.setTotal(0.0);
+//        book.setTotal(0.0);
         realm.commitTransaction();
     }
 

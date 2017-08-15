@@ -77,7 +77,7 @@ public class CurrencyActivity extends AppCompatActivity implements CurrencyActiv
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         presenter.close();
+        super.onDestroy();
     }
 }

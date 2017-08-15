@@ -1,7 +1,5 @@
 package com.microlabs.trallet.model;
 
-import com.microlabs.trallet.repo.RealmHelper;
-
 import io.realm.Realm;
 import io.realm.RealmObject;
 
@@ -13,11 +11,11 @@ public class Book extends RealmObject {
     public static final String fId= "id";
     public static final String fTitle = "title";
     public static final String fDesc = "desc";
-    public static final String fTotal = "total";
+//    public static final String fTotal = "total";
     private int id;
     private String title;
     private String desc;
-    private double total;
+//    private double total;
 
     public Book() {
     }
@@ -51,7 +49,7 @@ public class Book extends RealmObject {
         this.desc = desc;
     }
 
-    public double getTotal() {
+    /*public double getTotal() {
         return total;
     }
 
@@ -65,5 +63,5 @@ public class Book extends RealmObject {
 
     public void setTotal(Realm realm) {
         total = RealmHelper.getBookTotal(realm, id);
-    }
+    }*/
 }

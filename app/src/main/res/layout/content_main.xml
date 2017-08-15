@@ -8,8 +8,7 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rvBook"
         android:layout_width="0dp"
         android:layout_height="0dp"

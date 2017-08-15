@@ -58,6 +58,7 @@
                 android:text="Description" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/lblPrice"
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
@@ -68,7 +69,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin_triple"
                 android:text="Price" />
 
-            <LinearLayout
+            <RelativeLayout
                 style="?android:attr/buttonBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,10 +89,23 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/btnDetails"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:textColor="#c62828"
                     android:text="DELETE" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/btnAddExpense"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:text="Add Expense"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

@@ -45,7 +45,10 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".BookDetailActivity"
+            android:label="@string/title_activity_book_detail"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7341b09a62ab9d27b4ecda7a3db3e5dec017d5ae" />

@@ -1,13 +1,17 @@
 package com.microlabs.trallet;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.microlabs.trallet.presenter.ExpenseActivityPresenter;
 import com.microlabs.trallet.repo.DatabaseBookRepository;
 import com.microlabs.trallet.view.ExpenseActivityView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +40,9 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseActivit
     private ExpenseRVAdapter adapter;
     private int bookId;
     private ExpenseActivityPresenter presenter;
+
+    private ArrayList<Integer> expenseId = new ArrayList<>();
+    private Snackbar snackbar;
 
     /**
      * Item Click Listener for Expense RecyclerView
@@ -75,7 +83,62 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseActivit
 
         rvExpenseList.setLayoutManager(mLayoutManager);
         rvExpenseList.setItemAnimator(new DefaultItemAnimator());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                return makeMovementFlags(0, ItemTouchHelper.END | ItemTouchHelper.START);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if (snackbar == null) {
+                    createSnackbar();
+                } else if (snackbar.isShown()) {
+                    snackbar.dismiss();
+                    createSnackbar();
+                }
+                expenseId.add(((ExpenseRVAdapter.ViewHolder) viewHolder).item.getId());
+                adapter.removeExpense(viewHolder.getAdapterPosition());
+                snackbar.show();
+            }
+
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                viewHolder.itemView.setAlpha((viewHolder.itemView.getWidth() - Math.abs(dX)) / viewHolder.itemView.getWidth());
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(rvExpenseList);
         rvExpenseList.setAdapter(adapter);
+    }
+
+    private void createSnackbar() {
+        snackbar = Snackbar.make(getCurrentFocus(), "Expense Deleted", Snackbar.LENGTH_SHORT)
+                .setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        expenseId.remove(0);
+                        updateData();
+                    }
+                }).addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_MANUAL) {
+                            presenter.deleteExpense(bookId, expenseId.get(0));
+                            expenseId.remove(0);
+                            if (expenseId.size() == 0) {
+                                updateData();
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -115,7 +178,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseActivit
     @Override
     public void showNoExpense(List<Expense> expenses) {
         adapter.updateData(expenses);
-        Toast.makeText(this, "No Expenses Yet.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No Expense Yet", Toast.LENGTH_SHORT).show();
     }
 
     @Override

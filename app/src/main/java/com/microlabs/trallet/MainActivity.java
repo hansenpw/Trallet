@@ -29,14 +29,14 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainActivityView {
 
-    @BindView(R.id.rvBook)
-    RecyclerView rv;
-    @BindView(R.id.txtEmpty)
-    TextView txtEmpty;
-
+    private static final String TAG = "MainActivity";
     BookRVAdapter bookRVAdapter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.rvBook)
+    RecyclerView rvBook;
+    @BindView(R.id.txtEmpty)
+    TextView txtEmpty;
 
     private MainActivityPresenter presenter;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     private BookItemListener itemListener = new BookItemListener() {
         @Override
         public void onDetailClick(int bookId, String bookTitle) {
-            Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
+            Intent i = new Intent(MainActivity.this, BookDetailActivity.class);
             i.putExtra("bookId", bookId);
             i.putExtra("lblTitle", bookTitle);
             startActivity(i);
@@ -65,13 +65,29 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
             i.putExtra("lblDescription", bookDesc);
             startActivity(i);
         }
+
+        @Override
+        public void onBookClick(int bookId, String bookTitle) {
+            Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
+            i.putExtra("bookId", bookId);
+            i.putExtra("lblTitle", bookTitle);
+            startActivity(i);
+        }
+
+        @Override
+        public void onAddExpenseClick(int bookId, String bookTitle) {
+            Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
+            i.putExtra("bookId", bookId);
+            i.putExtra("lblTitle", bookTitle);
+            startActivity(i);
+        }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        ButterKnife.bind(MainActivity.this);
         setSupportActionBar(toolbar);
 
         DatabaseBookRepository bookRepository = new DatabaseBookRepository();
@@ -81,11 +97,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     }
 
     private void setup() {
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new DefaultItemAnimator());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        rvBook.setLayoutManager(mLayoutManager);
+        rvBook.setItemAnimator(new DefaultItemAnimator());
         bookRVAdapter = new BookRVAdapter(itemListener);
-        rv.setAdapter(bookRVAdapter);
+        rvBook.setAdapter(bookRVAdapter);
     }
 
     @Override
@@ -162,16 +178,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     @Override
     public void showBooks(List<Book> books) {
         txtEmpty.setVisibility(View.GONE);
-        rv.setVisibility(View.VISIBLE);
+        rvBook.setVisibility(View.VISIBLE);
         bookRVAdapter.updateList(books);
     }
 
     @Override
     public void showNoBook(List<Book> books) {
-        rv.setVisibility(View.GONE);
+        rvBook.setVisibility(View.GONE);
         txtEmpty.setVisibility(View.VISIBLE);
         bookRVAdapter.updateList(books);
-        Toast.makeText(this, "There is no books.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No Book Yet", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -206,5 +222,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         void onDeleteClick(int bookId, String bookTitle);
 
         void onEditClick(int bookId, String bookTitle, String bookDesc);
+
+        void onBookClick(int bookId, String bookTitle);
+
+        void onAddExpenseClick(int bookId, String bookTitle);
     }
 }

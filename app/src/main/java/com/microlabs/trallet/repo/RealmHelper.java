@@ -25,7 +25,6 @@ public class RealmHelper {
         realm.beginTransaction();
         realm.where(Expense.class).equalTo(Expense.fId, expenseId).findFirst().deleteFromRealm();
         realm.commitTransaction();
-        realm.close();
     }
 
     public static double getBookTotal(int bookId) {
@@ -40,7 +39,7 @@ public class RealmHelper {
     public static void setBookTotal(Realm realm, int bookId, double value) {
         realm.beginTransaction();
         Book temp = realm.where(Book.class).equalTo(Book.fId, bookId).findFirst();
-        temp.setTotal(temp.getTotal() + value);
+//        temp.setTotal(temp.getTotal() + value);
         realm.commitTransaction();
     }
 
@@ -48,14 +47,14 @@ public class RealmHelper {
         realm.beginTransaction();
         double value = realm.where(Expense.class).equalTo(Expense.fId, expenseId).findFirst().getValue();
         Book temp = realm.where(Book.class).equalTo(Book.fId, bookId).findFirst();
-        temp.setTotal(temp.getTotal() - value);
+//        temp.setTotal(temp.getTotal() - value);
         realm.commitTransaction();
     }
 
     public static void setBookEdit(Realm realm, int bookId, double oldValue, double newValue) {
         realm.beginTransaction();
         Book temp = realm.where(Book.class).equalTo(Book.fId, bookId).findFirst();
-        temp.setTotal(temp.getTotal() - oldValue + newValue);
+//        temp.setTotal(temp.getTotal() - oldValue + newValue);
         realm.commitTransaction();
     }
 

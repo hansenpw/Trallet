@@ -3,7 +3,6 @@ package com.microlabs.trallet.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.microlabs.trallet.ExpenseActivity;
@@ -16,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Nicholas on 3/13/2017.
@@ -55,15 +55,20 @@ public class ExpenseRVAdapter extends RecyclerView.Adapter<ExpenseRVAdapter.View
         return expenseList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public void removeExpense(int position) {
+        expenseList.remove(position);
+        notifyItemRemoved(position);
+    }
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public Expense item;
         @BindView(R.id.imgExpense)
-        ImageView imgExpense;
+        CircleImageView imgExpense;
         @BindView(R.id.txtExTitle)
         TextView txtExTitle;
         @BindView(R.id.txtExPrice)
         TextView txtExPrice;
-        Expense item;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +82,7 @@ public class ExpenseRVAdapter extends RecyclerView.Adapter<ExpenseRVAdapter.View
             switch (item.getCategoryId()) {
                 case 1:
                     imgExpense.setImageResource(R.drawable.ic_local_dining_black_24dp);
+//                    imgExpense.setBackgroundColor(ContextCompat.getColor());
                     break;
                 case 2:
                     imgExpense.setImageResource(R.drawable.ic_local_taxi_black_24dp);
@@ -90,7 +96,7 @@ public class ExpenseRVAdapter extends RecyclerView.Adapter<ExpenseRVAdapter.View
             }
         }
 
-        @OnClick({R.id.btnEdit, R.id.btnDelete})
+        @OnClick({R.id.btnEdit, R.id.btnDelete, R.id.cvExpense})
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnEdit:
@@ -98,6 +104,9 @@ public class ExpenseRVAdapter extends RecyclerView.Adapter<ExpenseRVAdapter.View
                     break;
                 case R.id.btnDelete:
                     itemListener.onDeleteClick(item.getId());
+                    break;
+                case R.id.cvExpense:
+                    itemListener.onEditClick(item.getId());
                     break;
             }
         }

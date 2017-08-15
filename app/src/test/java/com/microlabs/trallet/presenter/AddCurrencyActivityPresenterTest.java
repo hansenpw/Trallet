@@ -55,6 +55,7 @@ public class AddCurrencyActivityPresenterTest {
 
     @Test
     public void shouldUpdateCurrencyToRepo() {
+        when(repo.updateCurrency(1, "MONEY", 1.0)).thenReturn(true);
         presenter.updateCurrency(1, "MONEY", 1.0);
         verify(view).done();
     }
