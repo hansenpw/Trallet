@@ -5,6 +5,8 @@ This Android Project uses Realm Mobile Database, Fabric Crashlytics, MPAndroidCh
 
 It is meant for learning an Android Project with release quality standard. To see the app in action, download from https://play.google.com/store/apps/details?id=com.microlabs.trallet&hl=en
 
+A new branch called [Kotlin](https://github.com/hansenpw/Trallet/tree/kotlin) was made. All code except tests are fully written in Kotlin
+
 Created by Microlabs Team consisting of:
 - Alfino
 - Hansen
