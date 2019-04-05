@@ -8,30 +8,30 @@ import java.util.*
  * Created by Hansen on 4/28/2017.
  *
  *
- * Add Expense Activity Presenter
+ * Add RExpense Activity Presenter
  */
 
 class AddExpenseActivityPresenter(private val view: AddExpenseView, private val bookRepository: DatabaseBookRepository) {
 
     /**
-     * Get Expense Data from Repo
+     * Get RExpense Data from Repo
      *
      * @param id = ExpenseId to get
      */
     fun getExpenseData(id: Int) {
-        view.setupData(bookRepository.getExpense(id))
+//        view.setupData(bookRepository.getExpense(id))
     }
 
     /**
-     * Save New Expense to Repo
+     * Save New RExpense to Repo
      *
-     * @param title      = Expense Title
-     * @param bookId     = Expense BookId
-     * @param value      = Expense Value
-     * @param categoryId = Expense CategoryId
-     * @param currencyId = Expense CurrencyId
-     * @param date       = Expense Date
-     * @param details    = Expense Details
+     * @param title      = RExpense Title
+     * @param bookId     = RExpense BookId
+     * @param value      = RExpense Value
+     * @param categoryId = RExpense CategoryId
+     * @param currencyId = RExpense CurrencyId
+     * @param date       = RExpense Date
+     * @param details    = RExpense Details
      * @return true if success
      */
     fun saveNewExpense(title: String, bookId: Int, value: Double, categoryId: Int, currencyId: Int, date: Date, details: String) {
@@ -39,37 +39,37 @@ class AddExpenseActivityPresenter(private val view: AddExpenseView, private val 
                 categoryId <= 0 || currencyId <= 0 || date.time <= 0L) {
             view.showError()
         } else {
-            bookRepository.saveExpense(title, bookId, value, categoryId, currencyId, date, details)
+//            bookRepository.saveExpense(title, bookId, value, categoryId, currencyId, date, details)
             view.done()
         }
     }
 
     /**
-     * setup Category Spinner data and adapter
+     * setup RCategory Spinner data and adapter
      */
     fun setupCategorySpinner() {
-        view.setupCategorySpinner(bookRepository.categoryList)
+//        view.setupCategorySpinner(bookRepository.RCategoryList)
     }
 
     /**
-     * setup Currency Spinner data and adapter
+     * setup RCurrency Spinner data and adapter
      */
     fun setupCurrencySpinner() {
-        view.setupCurrencySpinner(bookRepository.currencyList)
+//        view.setupCurrencySpinner(bookRepository.RCurrencyList)
     }
 
     /**
-     * Update Expense Data to Repo
+     * Update RExpense Data to Repo
      *
      * @param expenseId  = ExpenseId
-     * @param title      = Expense Title
-     * @param bookId     = Expense BookId
-     * @param value      = Expense Value
-     * @param categoryId = Expense CategoryId
-     * @param currencyId = Expense CurrencyId
-     * @param date       = Expense Date
-     * @param details    = Expense Details
-     * @param oldValue   = Expense Old Value to update Book Total Value
+     * @param title      = RExpense Title
+     * @param bookId     = RExpense BookId
+     * @param value      = RExpense Value
+     * @param categoryId = RExpense CategoryId
+     * @param currencyId = RExpense CurrencyId
+     * @param date       = RExpense Date
+     * @param details    = RExpense Details
+     * @param oldValue   = RExpense Old Value to update Book Total Value
      * @return true if success
      */
     fun updateExpense(expenseId: Int, title: String, bookId: Int, value: Double, categoryId: Int, currencyId: Int, date: Date, details: String, oldValue: Double) {
@@ -77,10 +77,10 @@ class AddExpenseActivityPresenter(private val view: AddExpenseView, private val 
                 categoryId <= 0 || currencyId <= 0 || date.time <= 0L) {
             view.showError()
         } else {
-            bookRepository.updateExpense(expenseId, title, bookId, value, categoryId, currencyId, date, details, oldValue)
+//            bookRepository.updateExpense(expenseId, title, bookId, value, categoryId, currencyId, date, details, oldValue)
             view.done()
         }
     }
 
-    fun close() = bookRepository.close()
+//    fun close() = bookRepository.close()
 }

@@ -6,14 +6,14 @@ import com.microlabs.trallet.view.CurrencyActivityView
 /**
  * Created by Hansen on 5/11/2017.
  *
- * Currency Activity Presenter
+ * RCurrency Activity Presenter
  */
 
-class CurrencyActivityPresenter(private val view: CurrencyActivityView, private val repo: DatabaseBookRepository) {
+class CurrencyActivityPresenter(private val view: CurrencyActivityView?, private val repo: DatabaseBookRepository) {
 
     fun loadCurrency() {
-        view.showCurrencyList(repo.currencyList)
+//        view.showCurrencyList(repo.RCurrencyList)
     }
 
-    fun close() = repo.close()
+//    fun close() = repo.close()
 }

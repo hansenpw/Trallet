@@ -1,10 +1,10 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.microlabs.trallet.presenter.AddCurrencyActivityPresenter
 import com.microlabs.trallet.repo.DatabaseBookRepository
 import com.microlabs.trallet.view.AddCurrencyActivityView
@@ -27,18 +27,18 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
         if (id != -1) {
             txtCurrName.setText(intent.getStringExtra("currName"))
             txtCurrValue.setText(intent.getDoubleExtra("currValue", -1.0).toString())
-            supportActionBar!!.title = "Edit Currency"
+            supportActionBar!!.title = "Edit RCurrency"
         }
 
         btnSave.setOnClickListener {
-            // if new Currency is created
+            // if new RCurrency is created
             if (txtCurrName.text.toString().isEmpty() || txtCurrValue.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please Input all Data", Toast.LENGTH_SHORT).show()
             } else {
                 if (id == -1) {
                     presenter.insertNewCurrency(txtCurrName.text.toString(), txtCurrValue.text.toString().toDouble())
                 } else {
-                    // if edit Currency
+                    // if edit RCurrency
                     presenter.updateCurrency(id, txtCurrName.text.toString(), txtCurrValue.text.toString().toDouble())
                     finish()
                 }
@@ -64,7 +64,7 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
     }
 
     override fun showError() {
-        toast("Fail to save Currency").show()
+        toast("Fail to save RCurrency").show()
     }
 
     override fun done() {
@@ -73,7 +73,7 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
 
     override fun showDuplicateError() {
         alert {
-            message = "Currency Name has exists. Please change the currency name to prevent duplication."
+            message = "RCurrency Name has exists. Please change the currency name to prevent duplication."
             okButton {
                 it.dismiss()
             }
@@ -96,7 +96,7 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
     }
 
     override fun onDestroy() {
-        presenter.close()
+//        presenter.close()
         super.onDestroy()
     }
 }

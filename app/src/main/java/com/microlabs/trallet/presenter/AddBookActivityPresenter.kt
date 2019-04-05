@@ -22,7 +22,7 @@ class AddBookActivityPresenter(private val view: AddBookActivityView, private va
         if (title.isEmpty()) {
             view.showError()
         } else {
-            repo.saveBook(title, desc)
+//            repo.saveBook(title, desc)
             view.done()
         }
     }
@@ -33,7 +33,7 @@ class AddBookActivityPresenter(private val view: AddBookActivityView, private va
      * @param id = bookId of Book to display
      */
     fun getBookData(id: Int) {
-        view.showBook(repo.getBook(id))
+//        view.showBook(repo.getBook(id))
     }
 
     /**
@@ -47,10 +47,10 @@ class AddBookActivityPresenter(private val view: AddBookActivityView, private va
         if (id <= 0 || title.isEmpty()) {
             view.showError()
         } else {
-            repo.updateBook(id, title, desc)
+//            repo.updateBook(id, title, desc)
             view.done()
         }
     }
 
-    fun close() = repo.close()
+//    fun close() = repo.close()
 }

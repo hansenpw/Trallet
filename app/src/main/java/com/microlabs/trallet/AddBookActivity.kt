@@ -1,25 +1,21 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
-import com.microlabs.trallet.model.Book
-import com.microlabs.trallet.presenter.AddBookActivityPresenter
-import com.microlabs.trallet.repo.DatabaseBookRepository
-import com.microlabs.trallet.view.AddBookActivityView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import com.microlabs.trallet.viewmodel.AddBookViewModel
 import kotlinx.android.synthetic.main.activity_add_new_book.*
 import kotlinx.android.synthetic.main.content_add_new_book.*
-import org.jetbrains.anko.toast
 
-class AddBookActivity : AppCompatActivity(), AddBookActivityView {
+class AddBookActivity : AppCompatActivity() {
 
-    private val presenter: AddBookActivityPresenter by lazy {
-        AddBookActivityPresenter(this, DatabaseBookRepository())
-    }
     private val id: Int by lazy {
-        intent.getIntExtra("id", 0)
+        intent.getIntExtra("id", -1)
     }
+
+    private lateinit var viewModel: AddBookViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +23,9 @@ class AddBookActivity : AppCompatActivity(), AddBookActivityView {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (id != 0) {
+        viewModel = ViewModelProviders.of(this).get(AddBookViewModel::class.java)
+
+        if (id != -1) {
             txtEditTitle.setText(intent.getStringExtra("lblTitle"))
             txtEditDescription.setText(intent.getStringExtra("lblDescription"))
         }
@@ -37,11 +35,12 @@ class AddBookActivity : AppCompatActivity(), AddBookActivityView {
             if (title.isEmpty()) {
                 Toast.makeText(this, "Please Input Title", Toast.LENGTH_SHORT).show()
             } else {
-                if (id == 0) {
-                    presenter.insertNewBook(title, txtEditDescription.text.toString())
+                if (id == -1) {
+                    viewModel.insertNewBook(title, txtEditDescription.text.toString())
                 } else {
-                    presenter.updateBook(id, title, txtEditDescription.text.toString())
+                    viewModel.updateBook(id, title, txtEditDescription.text.toString())
                 }
+                finish()
             }
         }
     }
@@ -49,23 +48,5 @@ class AddBookActivity : AppCompatActivity(), AddBookActivityView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) finish()
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun showError() {
-        toast("Fail to insert book").show()
-    }
-
-    override fun done() {
-        finish()
-    }
-
-    override fun showBook(book: Book) {
-        txtEditTitle.setText(book.title)
-        txtEditDescription.setText(book.desc)
-    }
-
-    override fun onDestroy() {
-        presenter.close()
-        super.onDestroy()
     }
 }

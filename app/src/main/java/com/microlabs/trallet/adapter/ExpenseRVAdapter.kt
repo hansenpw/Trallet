@@ -1,8 +1,8 @@
 package com.microlabs.trallet.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.ExpenseActivity
 import com.microlabs.trallet.R
 import com.microlabs.trallet.model.Expense

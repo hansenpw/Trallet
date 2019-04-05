@@ -5,7 +5,7 @@ import com.microlabs.trallet.model.Expense
 /**
  * Created by Hansen on 4/24/2017.
  *
- * View of Expense Activity
+ * View of RExpense Activity
  */
 
 interface ExpenseActivityView {
@@ -13,19 +13,19 @@ interface ExpenseActivityView {
     /**
      * Show no Expenses
      *
-     * @param expenses = empty list of expenses for adapter
+     * @param expens = empty list of expens for adapter
      */
-    fun showNoExpense(expenses: List<Expense>)
+    fun showNoExpense(expens: List<Expense>)
 
     /**
      * Show Expenses
      *
-     * @param expenses = list of expenses for adapter
+     * @param expens = list of expens for adapter
      */
-    fun showExpenses(expenses: List<Expense>)
+    fun showExpenses(expens: List<Expense>)
 
     /**
-     * Intent to AddExpenseActity for new or edit Expense
+     * Intent to AddExpenseActity for new or edit RExpense
      *
      * @param expenseId = expenseId to pass to AddExpenseActivity
      * 0 for new expense

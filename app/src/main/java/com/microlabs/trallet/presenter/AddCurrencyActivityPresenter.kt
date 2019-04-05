@@ -7,7 +7,7 @@ import com.microlabs.trallet.view.AddCurrencyActivityView
  * Created by Hansen on 5/11/2017.
  *
  *
- * Add Currency Activity Presenter
+ * Add RCurrency Activity Presenter
  */
 
 class AddCurrencyActivityPresenter(private val view: AddCurrencyActivityView, private val repo: DatabaseBookRepository) {
@@ -16,10 +16,10 @@ class AddCurrencyActivityPresenter(private val view: AddCurrencyActivityView, pr
         if (title.isEmpty() || value <= 0.0) {
             view.showError()
         } else {
-            if (repo.saveCurrency(title, value))
+//            if (repo.saveCurrency(title, value))
                 view.done()
-            else
-                view.showDuplicateError()
+//            else
+//                view.showDuplicateError()
         }
     }
 
@@ -27,26 +27,26 @@ class AddCurrencyActivityPresenter(private val view: AddCurrencyActivityView, pr
         if (id <= 0 || title.isEmpty() || value <= 0.0) {
             view.showError()
         } else {
-            if (repo.updateCurrency(id, title, value)) {
+//            if (repo.updateCurrency(id, title, value)) {
                 view.done()
-            } else {
-                view.showDuplicateError()
-            }
+//            } else {
+//                view.showDuplicateError()
+//            }
         }
     }
 
     fun validateDeleteCurrency(id: Int) {
-        if (repo.canCurrencyDelete(id)) {
+//        if (repo.canCurrencyDelete(id)) {
             view.validateDeleteCurrency()
-        } else {
-            view.showFailDeleteCurrency()
-        }
+//        } else {
+//            view.showFailDeleteCurrency()
+//        }
     }
 
     fun deleteCurrency(id: Int) {
-        repo.deleteCurrency(id)
+//        repo.deleteCurrency(id)
         view.done()
     }
 
-    fun close() = repo.close()
+//    fun close() = repo.close()
 }

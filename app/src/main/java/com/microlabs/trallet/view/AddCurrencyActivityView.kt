@@ -4,7 +4,7 @@ package com.microlabs.trallet.view
  * Created by Hansen on 5/11/2017.
  *
  *
- * Add Currency Activity View
+ * Add RCurrency Activity View
  */
 
 interface AddCurrencyActivityView {

@@ -7,31 +7,37 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.microlabs.trallet.R
 import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.repo.getCurrencyById
 import kotlinx.android.synthetic.main.item_category.view.*
 
 /**
  * Created by Nicholas on 3/13/2017.
  *
- * Currency Spinner Custom Adapter
+ * RCurrency Spinner Custom Adapter
  */
 
-class CurrencySpinnerAdapter(context: Context, resource: Int, private val mCurrency: List<Currency>) : ArrayAdapter<Currency>(context, resource, mCurrency) {
+class CurrencySpinnerAdapter(context: Context, resource: Int, private val currencyList: List<Currency>) : ArrayAdapter<Currency>(context, resource, currencyList) {
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private var itemView: View? = null
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val v = inflater.inflate(R.layout.item_category, parent, false)
-        v.lblCategoryText.text = mCurrency[position].name
+        v.lblCategoryText.text = currencyList[position].name
         return v
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val v = inflater.inflate(R.layout.item_category, parent, false)
-        v.lblCategoryText.text = mCurrency[position].name
-        return v
+        if (itemView == null) {
+            itemView = inflater.inflate(R.layout.item_category, parent, false)
+        }
+        itemView!!.lblCategoryText.text = currencyList[position].name
+        return itemView!!
     }
 
-    fun getPosition(currId: Int): Int {
-        return super.getPosition(getCurrencyById(currId))
+    fun getPositionById(currencyId: Int): Int {
+        return currencyList.indexOfFirst { it.id == currencyId }
     }
+
+//    fun getPosition(currId: Int): Int {
+//        return super.getPosition(getCurrencyById(currId))
+//    }
 }

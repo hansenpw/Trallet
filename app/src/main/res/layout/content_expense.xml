@@ -17,12 +17,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="@dimen/activity_horizontal_margin"
-        android:text="Description"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        tools:text="Description" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvExpenseList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_expense" />
 
 </LinearLayout>

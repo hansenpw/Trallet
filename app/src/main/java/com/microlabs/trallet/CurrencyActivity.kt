@@ -1,24 +1,24 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.adapter.CurrencyRVAdapter
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.presenter.CurrencyActivityPresenter
 import com.microlabs.trallet.repo.DatabaseBookRepository
-import com.microlabs.trallet.view.CurrencyActivityView
 import kotlinx.android.synthetic.main.activity_currency.*
 import kotlinx.android.synthetic.main.content_currency.*
 import org.jetbrains.anko.startActivity
 
-class CurrencyActivity : AppCompatActivity(), CurrencyActivityView {
+class CurrencyActivity : AppCompatActivity() {
 
     private lateinit var currencyRVAdapter: CurrencyRVAdapter
 
     private val presenter: CurrencyActivityPresenter by lazy {
-        CurrencyActivityPresenter(this, DatabaseBookRepository())
+        CurrencyActivityPresenter(null, DatabaseBookRepository())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class CurrencyActivity : AppCompatActivity(), CurrencyActivityView {
     }
 
     private fun setUpUI() {
-        val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val manager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvCurrency.layoutManager = manager
         currencyRVAdapter = CurrencyRVAdapter(this)
         rvCurrency.adapter = currencyRVAdapter
@@ -52,11 +52,11 @@ class CurrencyActivity : AppCompatActivity(), CurrencyActivityView {
     }
 
     override fun onDestroy() {
-        presenter.close()
+//        presenter.close()
         super.onDestroy()
     }
 
-    override fun showCurrencyList(currencyList: List<Currency>) {
-        currencyRVAdapter.updateList(currencyList)
+    fun showCurrencyList(RCurrencyList: List<Currency>) {
+        currencyRVAdapter.updateList(RCurrencyList)
     }
 }

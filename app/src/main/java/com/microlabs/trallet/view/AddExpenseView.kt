@@ -7,16 +7,16 @@ import com.microlabs.trallet.model.Expense
 /**
  * Created by Hansen on 4/28/2017.
  *
- * Add Expense Activity View
+ * Add RExpense Activity View
  */
 
 interface AddExpenseView {
     /**
-     * Setup Expense Data to fields
+     * Setup RExpense Data to fields
      *
-     * @param expense = expense object
+     * @param RExpense = RExpense object
      */
-    fun setupData(expense: Expense)
+    fun setupData(RExpense: Expense)
 
     /**
      * Show Error when failed to save
@@ -24,18 +24,18 @@ interface AddExpenseView {
     fun showError()
 
     /**
-     * Setup Category Spinner Data and Adapter
+     * Setup RCategory Spinner Data and Adapter
      *
-     * @param categoryList = List of Category
+     * @param RCategoryList = List of RCategory
      */
-    fun setupCategorySpinner(categoryList: List<Category>)
+    fun setupCategorySpinner(RCategoryList: List<Category>)
 
     /**
-     * Setup Currency Spinner Data and Adapter
+     * Setup RCurrency Spinner Data and Adapter
      *
-     * @param currencyList = List of Currency
+     * @param RCurrencyList = List of RCurrency
      */
-    fun setupCurrencySpinner(currencyList: List<Currency>)
+    fun setupCurrencySpinner(RCurrencyList: List<Currency>)
 
     /**
      * Done editing

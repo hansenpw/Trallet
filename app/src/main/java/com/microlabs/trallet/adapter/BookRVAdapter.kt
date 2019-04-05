@@ -1,70 +1,76 @@
 package com.microlabs.trallet.adapter
 
-import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.microlabs.trallet.BR
 import com.microlabs.trallet.MainActivity
 import com.microlabs.trallet.R
+import com.microlabs.trallet.databinding.ItemBooksBinding
 import com.microlabs.trallet.model.Book
-import kotlinx.android.synthetic.main.item_books.view.*
-import java.util.*
 
 /**
  * Book RecyclerView Adapter
  */
-class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) : RecyclerView.Adapter<BookRVAdapter.ViewHolder>() {
+class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) :
+        ListAdapter<Book, BookRVAdapter.ItemHolder>(Callback) {
 
-    private val bookList = ArrayList<Book>()
+    object Callback : DiffUtil.ItemCallback<Book>() {
+        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+            Log.d("rv", "rv items same")
+            return oldItem.id == newItem.id
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(View.inflate(parent.context, R.layout.item_books, null))
+        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+            Log.d("rv", "rv contents same")
+            return oldItem == newItem
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.updateItem(bookList[position])
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
+        val binding = DataBindingUtil.inflate<ItemBooksBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.item_books,
+                parent,
+                false)
+//        val view = LayoutInflater.from(parent.context).inflate(
+//                R.layout.item_books,
+//                parent,
+//                false)
+        return ItemHolder(binding.root)
     }
 
-    override fun getItemCount(): Int {
-        return bookList.size
+    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    fun updateList(bookList: List<Book>) {
-        this.bookList.clear()
-        this.bookList.addAll(bookList)
-        notifyDataSetChanged()
-    }
+    inner class ItemHolder(view: View) : ViewHolder(view) {
+        private val binding: ItemBooksBinding?
+            get() = DataBindingUtil.getBinding(itemView)
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var id: Int = 0
-        val lblDescription = itemView.lblDescription
-        val lblTitle = itemView.lblTitle
-        val btnDetails = itemView.btnDetails
-        val btnDelete = itemView.btnDelete
-        val cvBooks = itemView.cvBooks
-        val btnEditCard = itemView.btnEditCard
-        val btnAddExpense = itemView.btnAddExpense
-
-        fun updateItem(item: Book) {
-            id = item.id
-            lblDescription.text = item.desc
-            lblTitle.text = item.title
-
-            btnDetails.setOnClickListener {
-                itemListener.onDetailClick(id, lblTitle.text.toString())
+        fun bind(book: Book) {
+//            view.lblTitle.text = book.title
+//            view.lblDescription.text = book.desc
+            binding?.setVariable(BR.book, book)
+//            itemBinding.setVariable(BR.itemListener, itemListener)
+            binding?.btnDelete?.setOnClickListener {
+                itemListener.onDeleteClick(book)
             }
-            btnDelete.setOnClickListener {
-                itemListener.onDeleteClick(id, lblTitle.text.toString())
+            binding?.btnDetails?.setOnClickListener {
+                itemListener.onDetailClick(book.id, book.title)
             }
-            cvBooks.setOnClickListener {
-                itemListener.onBookClick(id, lblTitle.text.toString())
+            binding?.btnEditCard?.setOnClickListener {
+                itemListener.onEditClick(book.id, book.title, book.desc)
             }
-            btnEditCard.setOnClickListener {
-                itemListener.onEditClick(id, lblTitle.text.toString(), lblDescription.text.toString())
+            binding?.btnAddExpense?.setOnClickListener {
+                itemListener.onAddExpenseClick(book.id, book.title)
             }
-            btnAddExpense.setOnClickListener {
-                itemListener.onAddExpenseClick(id, lblTitle!!.text.toString())
-            }
+            binding?.executePendingBindings()
         }
     }
 }

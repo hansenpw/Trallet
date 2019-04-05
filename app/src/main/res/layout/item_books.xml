@@ -1,114 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvBooks"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin_half"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBooks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/btnEditCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="@dimen/activity_horizontal_margin_half"
-                android:alpha="0.35"
-                android:src="@drawable/ic_edit_black_24dp" />
-
-            <TextView
-                android:id="@+id/lblTitle"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignTop="@+id/btnEditCard"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toLeftOf="@id/btnEditCard"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_vertical_margin"
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:text="Title"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/lblDescription"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/lblTitle"
-                android:layout_below="@+id/lblTitle"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_vertical_margin"
-                android:paddingTop="@dimen/activity_horizontal_margin"
-                android:text="Description" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/lblPrice"
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/lblDescription"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin_triple"
-                android:text="Price" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_half">
 
             <RelativeLayout
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lblPrice">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnDetails"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:text="DETAILS" />
-
-
-                <Button
-                    android:id="@+id/btnDelete"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/btnDetails"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textColor="#c62828"
-                    android:text="DELETE" />
-
-                <Button
-                    android:id="@+id/btnAddExpense"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:text="Add Expense"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+                <ImageView
+                    android:id="@+id/btnEditCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/activity_horizontal_margin_half"
+                    android:alpha="0.35"
+                    android:contentDescription="Edit Button"
+                    android:src="@drawable/ic_edit_black_24dp" />
+
+                <RelativeLayout
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblPrice">
+
+                    <Button
+                        android:id="@+id/btnDetails"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:text="DETAILS" />
+
+
+                    <Button
+                        android:id="@+id/btnDelete"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:layout_toEndOf="@id/btnDetails"
+                        android:text="DELETE"
+                        android:textColor="#c62828" />
+
+                    <Button
+                        android:id="@+id/btnAddExpense"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/activity_horizontal_margin_half"
+                        android:text="Add Expense" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/lblDescription"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblTitle"
+                    android:layout_alignEnd="@id/lblTitle"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:text="@{book.desc}"
+                    tools:text="Description" />
+
+                <TextView
+                    android:id="@+id/lblPrice"
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblDescription"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin_triple"
+                    android:text="Price"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/lblTitle"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/btnEditCard"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toStartOf="@id/btnEditCard"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:text="@{book.title}"
+                    android:textSize="24sp"
+                    tools:text="Title" />
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-</LinearLayout>
+    <data>
+
+        <variable
+            name="book"
+            type="com.microlabs.trallet.model.Book" />
+
+        <!--<variable-->
+        <!--name="itemListener"-->
+        <!--type="com.microlabs.trallet.MainActivity.BookItemListener" />-->
+
+    </data>
+
+</layout>

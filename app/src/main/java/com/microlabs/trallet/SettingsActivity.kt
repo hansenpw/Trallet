@@ -1,9 +1,8 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import io.realm.Realm
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.content_settings.*
 import org.jetbrains.anko.*
@@ -16,12 +15,12 @@ class SettingsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        btnDeleteAll.setOnClickListener {
+        btnDeleteAll.setOnClickListener { _ ->
             alert("Are you sure want to delete all data?", "Delete all data?") {
                 yesButton {
-                    Realm.getDefaultInstance().use {
-                        it.deleteAll()
-                    }
+//                    Realm.getDefaultInstance().use {
+//                        it.deleteAll()
+//                    }
                     toast("All data deleted").show()
                     finish()
                 }
@@ -31,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
             }.show()
         }
 
-        btnAbout.setOnClickListener {
+        btnAbout.setOnClickListener { _ ->
             alert("Made by MicroLabs Developers\n" +
                     "AJ\n" +
                     "NA\n" +

@@ -1,30 +1,29 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.microlabs.trallet.adapter.CategorySpinnerAdapter
 import com.microlabs.trallet.adapter.CurrencySpinnerAdapter
 import com.microlabs.trallet.model.Category
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.model.Expense
-import com.microlabs.trallet.presenter.AddExpenseActivityPresenter
-import com.microlabs.trallet.repo.DatabaseBookRepository
-import com.microlabs.trallet.view.AddExpenseView
+import com.microlabs.trallet.viewmodel.AddExpenseViewModel
 import kotlinx.android.synthetic.main.activity_add_expenses.*
 import org.jetbrains.anko.toast
-import java.util.*
 
-
-class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
+class AddExpensesActivity : AppCompatActivity() {
 
     private var bookId: Int = 0
-    private var fromAdapterChecker: Int = 0 //Expense Id
+    private var fromAdapterChecker: Int = -1 //Expense Id
     private var oldValue: Double = 0.0
 
     private lateinit var adapterCat: CategorySpinnerAdapter
     private lateinit var adapterCurr: CurrencySpinnerAdapter
-    private val presenter: AddExpenseActivityPresenter by lazy { AddExpenseActivityPresenter(this, DatabaseBookRepository()) }
+
+    private lateinit var viewModel: AddExpenseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +31,18 @@ class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        viewModel = ViewModelProviders.of(this).get(AddExpenseViewModel::class.java)
+
         setUp()
 
         bookId = intent.getIntExtra("bookId", -1)
         if (bookId != -1) {
-            fromAdapterChecker = intent.getIntExtra("fromAdapter", 0)
-            if (fromAdapterChecker != 0) {
-                presenter.getExpenseData(fromAdapterChecker)
+            fromAdapterChecker = intent.getIntExtra("fromAdapter", -1)
+            if (fromAdapterChecker != -1) {
+//                presenter.getExpenseData(fromAdapterChecker)
+                viewModel.getExpenseById(fromAdapterChecker).observe(this, Observer {
+                    setupData(it)
+                })
             }
         }
 
@@ -47,16 +51,26 @@ class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
                 toast("Please Input All Required Data").show()
             } else {
                 val value = txtExValue.text.toString().toDouble()
-                if (fromAdapterChecker == 0) {
-                    presenter.saveNewExpense(txtExTitle.text.toString(), bookId, value,
-                            (spinnerCategory.selectedItem as Category).id,
-                            (spinnerCurrency.selectedItem as Currency).id,
-                            Calendar.getInstance().time, txtDescription.text.toString())
+                if (fromAdapterChecker == -1) {
+                    viewModel.insertExpense(Expense(
+                            title = txtExTitle.text.toString(),
+                            value = value,
+                            categoryId = (spinnerCategory.selectedItem as Category).id,
+                            currencyId = (spinnerCurrency.selectedItem as Currency).id,
+                            bookId = bookId,
+                            details = txtDescription.text.toString()))
+                    finish()
                 } else {
-                    presenter.updateExpense(fromAdapterChecker, txtExTitle.text.toString(), bookId, value,
-                            (spinnerCategory.selectedItem as Category).id,
-                            (spinnerCurrency.selectedItem as Currency).id,
-                            Calendar.getInstance().time, txtDescription.text.toString(), oldValue)
+                    viewModel.updateExpense(Expense(
+                            id = fromAdapterChecker,
+                            title = txtExTitle.text.toString(),
+                            value = value,
+                            categoryId = (spinnerCategory.selectedItem as Category).id,
+                            currencyId = (spinnerCurrency.selectedItem as Currency).id,
+                            bookId = bookId,
+                            details = txtDescription.text.toString()
+                    ))
+                    finish()
                 }
             }
         }
@@ -68,8 +82,12 @@ class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
     }
 
     private fun setUp() {
-        presenter.setupCategorySpinner()
-        presenter.setupCurrencySpinner()
+        viewModel.getAllCategory().observe(this, Observer {
+            setupCategorySpinner(it)
+        })
+        viewModel.getAllCurrencies().observe(this, Observer {
+            setupCurrencySpinner(it)
+        })
     }
 
     /*@OnClick({R.id.fab, R.id.imgExpense})
@@ -84,42 +102,17 @@ class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
                 double value = Double.parseDouble(txtExValue.getText().toString());
                 if (fromAdapterChecker == 0) {
                     presenter.saveNewExpense(txtExTitle.getText().toString(), bookId, value,
-                            ((Category) spinnerCategory.getSelectedItem()).getId(),
-                            ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                            ((RCategory) spinnerCategory.getSelectedItem()).getId(),
+                            ((RCurrency) spinnerCurrency.getSelectedItem()).getId(),
                             Calendar.getInstance().getTime(), txtDescription.getText().toString());
                 } else {
                     presenter.updateExpense(fromAdapterChecker, txtExTitle.getText().toString(), bookId, value,
-                            ((Category) spinnerCategory.getSelectedItem()).getId(),
-                            ((Currency) spinnerCurrency.getSelectedItem()).getId(),
+                            ((RCategory) spinnerCategory.getSelectedItem()).getId(),
+                            ((RCurrency) spinnerCurrency.getSelectedItem()).getId(),
                             Calendar.getInstance().getTime(), txtDescription.getText().toString(), oldValue);
                 }
             }
         }
-    }*/
-
-    /*@OnClick(R.id.fab)
-    fun onClick(view: View) {
-        *//*if (view.getId() == R.id.imgExpense) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_IMAGE);
-        } else {*//*
-        if (txtExValue!!.text.toString().isEmpty() || txtExTitle!!.text.toString().isEmpty()) {
-            Toast.makeText(this, "Please Input All Required Data", Toast.LENGTH_SHORT).show()
-        } else {
-            val value = java.lang.Double.parseDouble(txtExValue!!.text.toString())
-            if (fromAdapterChecker == 0) {
-                presenter.saveNewExpense(txtExTitle!!.text.toString(), bookId, value,
-                        (spinnerCategory!!.selectedItem as Category).id,
-                        (spinnerCurrency!!.selectedItem as Currency).id,
-                        Calendar.getInstance().time, txtDescription!!.text.toString())
-            } else {
-                presenter.updateExpense(fromAdapterChecker, txtExTitle!!.text.toString(), bookId, value,
-                        (spinnerCategory!!.selectedItem as Category).id,
-                        (spinnerCurrency!!.selectedItem as Currency).id,
-                        Calendar.getInstance().time, txtDescription!!.text.toString(), oldValue)
-            }
-        }
-        //        }
     }*/
 
     /*@Override
@@ -143,34 +136,29 @@ class AddExpensesActivity : AppCompatActivity(), AddExpenseView {
         }
     }*/
 
-    override fun setupData(expense: Expense) {
+    private fun setupData(expense: Expense) {
         txtExTitle.setText(expense.title)
         txtDescription.setText(expense.details)
         txtExValue.setText(expense.value.toString())
         oldValue = expense.value
-        spinnerCurrency.setSelection(adapterCurr.getPosition(expense.currencyId))
-        spinnerCategory.setSelection(adapterCat.getPosition(expense.categoryId))
+        spinnerCurrency.setSelection(adapterCurr.getPositionById(expense.currencyId))
+        spinnerCategory.setSelection(adapterCat.getPositionById(expense.categoryId))
     }
 
-    override fun showError() {
-        toast("Fail to Save Expense").show()
+    fun showError() {
+        toast("Fail to Save RExpense").show()
     }
 
-    override fun done() {
+    fun done() {
         finish()
     }
 
-    override fun onDestroy() {
-        presenter.close()
-        super.onDestroy()
-    }
-
-    override fun setupCategorySpinner(categoryList: List<Category>) {
+    private fun setupCategorySpinner(categoryList: List<Category>) {
         adapterCat = CategorySpinnerAdapter(this, R.layout.item_category, categoryList)
         spinnerCategory.adapter = adapterCat
     }
 
-    override fun setupCurrencySpinner(currencyList: List<Currency>) {
+    private fun setupCurrencySpinner(currencyList: List<Currency>) {
         adapterCurr = CurrencySpinnerAdapter(this, R.layout.item_category, currencyList)
         spinnerCurrency.adapter = adapterCurr
     }

@@ -1,7 +1,6 @@
 package com.microlabs.trallet.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.microlabs.trallet.AddCurrencyActivity
@@ -10,12 +9,11 @@ import com.microlabs.trallet.model.Currency
 import kotlinx.android.synthetic.main.item_currency.view.*
 import org.jetbrains.anko.startActivity
 import java.text.DecimalFormat
-import java.util.*
 
 /**
- * Currency RecyclerView Adapter
+ * RCurrency RecyclerView Adapter
  */
-class CurrencyRVAdapter(private val context: Context) : RecyclerView.Adapter<CurrencyRVAdapter.ViewHolder>() {
+class CurrencyRVAdapter(private val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<CurrencyRVAdapter.ViewHolder>() {
 
     private val currencyList = ArrayList<Currency>()
 
@@ -31,7 +29,7 @@ class CurrencyRVAdapter(private val context: Context) : RecyclerView.Adapter<Cur
         return currencyList.size
     }
 
-    fun updateList(currencyList: List<Currency>) {
+    fun updateList(currencyList: List<com.microlabs.trallet.model.Currency>) {
         this.currencyList.clear()
         this.currencyList.addAll(currencyList)
         notifyDataSetChanged()
@@ -47,13 +45,13 @@ class CurrencyRVAdapter(private val context: Context) : RecyclerView.Adapter<Cur
         notifyItemInserted(position)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         lateinit var item: Currency
         private var decimalFormat: DecimalFormat = DecimalFormat("###.#")
-        val txtCurrName = itemView.txtCurrName
-        val txtCurrPrice = itemView.txtCurrPrice
-        val cvCurrency = itemView.cvCurrency
+        val txtCurrName = itemView.txtCurrName!!
+        val txtCurrPrice = itemView.txtCurrPrice!!
+        val cvCurrency = itemView.cvCurrency!!
 
         internal fun updateItem(item: Currency) {
             this.item = item

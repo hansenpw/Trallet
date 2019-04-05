@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TralletPublic.iml" filepath="$PROJECT_DIR$/TralletPublic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trallet.iml" filepath="$PROJECT_DIR$/Trallet.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -1,22 +1,16 @@
 package com.microlabs.trallet.model
 
-import io.realm.Realm
-import io.realm.RealmObject
+import androidx.annotation.DrawableRes
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-/**
- * Category Class
- */
-open class Category : RealmObject() {
-
-    var id: Int = 0
-        private set
-    var name: String = ""
-
-    fun setId(realm: Realm) {
-        id = realm.where(Category::class.java).max(Category.fId).toInt() + 1
-    }
-
-    companion object {
-        val fId = "id"
-    }
-}
+@Entity(tableName = "categories")
+data class Category(
+        @PrimaryKey(autoGenerate = true)
+        val id: Int = 0,
+        val name: String,
+        @ColumnInfo(name = "imageId")
+        @DrawableRes
+        val imgId: Int
+)

@@ -6,7 +6,7 @@ import com.microlabs.trallet.view.ExpenseActivityView
 /**
  * Created by Hansen on 4/24/2017.
  *
- * Presenter Class of Expense Activity
+ * Presenter Class of RExpense Activity
  */
 
 class ExpenseActivityPresenter(private val view: ExpenseActivityView, private val bookRepository: DatabaseBookRepository) {
@@ -18,12 +18,12 @@ class ExpenseActivityPresenter(private val view: ExpenseActivityView, private va
      * @param id = bookId
      */
     fun loadExpense(id: Int) {
-        val expenseList = bookRepository.getExpenseList(id)
-        if (expenseList.isEmpty()) {
-            view.showNoExpense(expenseList)
-        } else {
-            view.showExpenses(expenseList)
-        }
+//        val expenseList = bookRepository.getExpenseList(id)
+//        if (expenseList.isEmpty()) {
+//            view.showNoExpense(expenseList)
+//        } else {
+//            view.showExpenses(expenseList)
+//        }
     }
 
     /**
@@ -50,13 +50,13 @@ class ExpenseActivityPresenter(private val view: ExpenseActivityView, private va
      * @param expenseId = expenseId to be removed
      */
     fun deleteExpense(bookId: Int, expenseId: Int) {
-        bookRepository.deleteExpense(bookId, expenseId)
+//        bookRepository.deleteExpense(bookId, expenseId)
     }
 
     /**
      * close Realm repo to prevent memory leak
      */
     fun close() {
-        bookRepository.close()
+//        bookRepository.close()
     }
 }
