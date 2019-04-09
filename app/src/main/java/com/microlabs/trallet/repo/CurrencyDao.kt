@@ -13,5 +13,5 @@ interface CurrencyDao {
     fun getAllCurrencies(): LiveData<List<Currency>>
 
     @Insert
-    fun insertCurrency(vararg currency: Currency)
+    suspend fun insertCurrency(vararg currency: Currency)
 }

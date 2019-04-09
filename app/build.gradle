@@ -63,19 +63,25 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha04'
+
     implementation 'androidx.room:room-runtime:2.1.0-alpha06'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
+    implementation "androidx.room:room-ktx:2.1.0-alpha06"
+
     implementation 'com.google.android.material:material:1.1.0-alpha05'
 
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
 //    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0'
 
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
 
     testImplementation 'junit:junit:4.13-beta-2'
     testImplementation 'org.mockito:mockito-core:2.26.0'

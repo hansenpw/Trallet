@@ -11,7 +11,9 @@ import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.model.Category
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.model.Expense
-import java.util.concurrent.Executors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Database(entities = [Book::class, Expense::class, Currency::class, Category::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -37,14 +39,13 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "TralletDatabase")
-                        .allowMainThreadQueries()
+//                        .allowMainThreadQueries()
                         .fallbackToDestructiveMigration()
                         .addCallback(object : Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 Log.i("trallet appdatabase", "oncreate callback")
-                                val executor = Executors.newSingleThreadExecutor()
-                                executor.execute {
+                                GlobalScope.launch(Dispatchers.IO) {
                                     Log.i("trallet appdatabase", "start execute callback")
                                     val category1 = Category(name = "Foods", imgId = R.drawable.ic_local_dining_black_24dp)
                                     val category2 = Category(name = "Transport", imgId = R.drawable.ic_local_taxi_black_24dp)

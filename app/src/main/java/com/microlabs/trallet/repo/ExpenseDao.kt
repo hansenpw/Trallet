@@ -8,13 +8,13 @@ import com.microlabs.trallet.model.Expense
 interface ExpenseDao {
 
     @Insert
-    fun insertExpense(expense: Expense)
+    suspend fun insertExpense(expense: Expense)
 
     @Update
-    fun updateExpense(expense: Expense)
+    suspend fun updateExpense(expense: Expense)
 
     @Delete
-    fun deleteExpense(vararg expense: Expense)
+    suspend fun deleteExpense(vararg expense: Expense)
 
     @Query("SELECT * FROM expenses WHERE bookId = :id")
     fun getAllExpensesByBookId(id: Int): LiveData<List<Expense>>

@@ -13,5 +13,5 @@ interface CategoryDao {
     fun getAllCategories(): LiveData<List<Category>>
 
     @Insert
-    fun insertCategory(vararg category: Category)
+    suspend fun insertCategory(vararg category: Category)
 }

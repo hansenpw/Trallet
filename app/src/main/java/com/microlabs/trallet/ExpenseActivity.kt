@@ -30,7 +30,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
     private var snackbar: Snackbar? = null
 
     /**
-     * Item Click Listener for RExpense RecyclerView
+     * Item Click Listener for Expense RecyclerView
      */
     private val itemListener = object : ExpenseItemListener {
         override fun onEditClick(expenseId: Int) {
@@ -107,7 +107,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
     }
 
     private fun createSnackbar() {
-        snackbar = Snackbar.make(currentFocus!!, "RExpense Deleted", Snackbar.LENGTH_SHORT)
+        snackbar = Snackbar.make(currentFocus!!, "Expense Deleted", Snackbar.LENGTH_SHORT)
                 .setAction("Undo") {
                     expenseId.removeAt(0)
                     updateData()
@@ -143,7 +143,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
 
     override fun showNoExpense(expens: List<Expense>) {
 //        adapter.updateData(expens)
-        toast("No RExpense Yet")
+        toast("No Expense Yet")
     }
 
     override fun showExpenses(expens: List<Expense>) {

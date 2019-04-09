@@ -14,14 +14,14 @@ interface BookDao {
     fun getBookById(id: Int): Book
 
     @Insert
-    fun insertBook(book: Book)
+    suspend fun insertBook(book: Book)
 
     @Delete
-    fun deleteBook(book: Book)
+    suspend fun deleteBook(book: Book)
 
     @Update
-    fun updateBook(book: Book)
+    suspend fun updateBook(book: Book)
 
     @Query("UPDATE books SET title = :title, description = :desc WHERE id = :id")
-    fun updateBookById(id: Int, title: String, desc: String)
+    suspend fun updateBookById(id: Int, title: String, desc: String)
 }

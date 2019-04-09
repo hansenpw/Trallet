@@ -30,34 +30,17 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * Get Book Data (title and desc) to display
-     *
-     * @param id = bookId of Book to display
-     */
-    fun getBookData(id: Int) =
-//        view.showBook(repo.getBook(id))
-        bookRepository.getBookById(id)
-
-    /**
      * Update Book to Repo
      *
      * @param id    = bookId of book to update
      * @param title = book title
      * @param desc  = book desc (optional)
      */
-    fun updateBook(book: Book) {
-//        if (id <= 0 || title.isEmpty()) {
-//            view.showError()
-//        } else {
-        bookRepository.updateBook(book)
-//            repo.updateBook(id, title, desc)
-//            view.done()
-//        }
-    }
-
     fun updateBook(id: Int, title: String, desc: String) {
         try {
-            bookRepository.updateBookById(id, title, desc)
+            GlobalScope.launch(Dispatchers.IO) {
+                bookRepository.updateBookById(id, title, desc)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

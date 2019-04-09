@@ -4,6 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.repo.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AddExpenseViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -13,9 +16,17 @@ class AddExpenseViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getAllCategory() = database.categoryDao().getAllCategories()
 
-    fun insertExpense(expense: Expense) = database.expenseDao().insertExpense(expense)
+    fun insertExpense(expense: Expense) {
+        GlobalScope.launch(Dispatchers.IO) {
+            database.expenseDao().insertExpense(expense)
+        }
+    }
 
-    fun updateExpense(expense: Expense) = database.expenseDao().updateExpense(expense)
+    fun updateExpense(expense: Expense) {
+        GlobalScope.launch(Dispatchers.IO){
+            database.expenseDao().updateExpense(expense)
+        }
+    }
 
     fun getExpenseById(id: Int) = database.expenseDao().getExpenseById(id)
 }

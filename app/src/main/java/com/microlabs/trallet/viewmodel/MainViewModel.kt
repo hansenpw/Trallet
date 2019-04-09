@@ -5,8 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.repo.AppDatabase
 import com.microlabs.trallet.repo.BookDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+//    val i : MutableLiveData<Expr> = MutableLiveData(Const(1.0))
 
     private val bookRepository: BookDao by lazy { AppDatabase.getInstance(getApplication()).bookDao() }
 
@@ -38,7 +43,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      *
      * @param id = bookId to remove
      */
-    fun deleteBook(book: Book) = bookRepository.deleteBook(book)
+    fun deleteBook(book: Book) {
+        GlobalScope.launch(Dispatchers.IO) {
+            bookRepository.deleteBook(book)
+        }
+        /*TODO: use invoke on complete using live data of sealed class*/
+    }
 
     /**
      * Close Repository to prevent memory leak
