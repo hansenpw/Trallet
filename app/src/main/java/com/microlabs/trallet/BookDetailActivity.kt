@@ -8,30 +8,38 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.microlabs.trallet.databinding.ActivityBookDetailBinding
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.model.Expense
-import kotlinx.android.synthetic.main.activity_book_detail.*
-import kotlinx.android.synthetic.main.content_book_detail.*
 import org.jetbrains.anko.startActivity
 import java.text.NumberFormat
 
 class BookDetailActivity : AppCompatActivity() {
 
-    private val views: List<View> by lazy { listOf(btnSeeExpense, lblTotal, lblFoodTotal, lblTransport, lblTransportTotal, lblShopTotal, lblShop, lblOthers, lblOthersTotal, lblAll, lblAllTotal, spinnerCurrency) }
+    private val views: List<View> by lazy {
+        listOf(binding.content.btnSeeExpense,
+                binding.content.lblTotal, binding.content.lblFoodTotal, binding.content.lblTransport,
+                binding.content.lblTransportTotal, binding.content.lblShopTotal, binding.content.lblShop,
+                binding.content.lblOthers, binding.content.lblOthersTotal, binding.content.lblAll,
+                binding.content.lblAllTotal, binding.content.spinnerCurrency)
+    }
     private var bookId: Int = 0
     private var bookTitle: String = ""
-//    private var RCurrencies: RealmResults<RCurrency>? = null
+    //    private var RCurrencies: RealmResults<RCurrency>? = null
     private var foodTotal: Double = 0.0
     private var transportTotal: Double = 0.0
     private var shopTotal: Double = 0.0
     private var othersTotal: Double = 0.0
     private var allTotal: Double = 0.0
+
+    private lateinit var binding: ActivityBookDetailBinding
 //    private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_book_detail)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_book_detail)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         views.forEach { it.visibility = GONE }
@@ -44,9 +52,9 @@ class BookDetailActivity : AppCompatActivity() {
 
 //        val adapterCurr = CurrencySpinnerAdapter(this, R.layout.item_category, item_categoryRCurrencies!!)
 //        spinnerCurrency.adapter = adapterCurr
-        spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.content.spinnerCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val selectedItem = spinnerCurrency.selectedItem as Currency
+                val selectedItem = binding.content.spinnerCurrency.selectedItem as Currency
                 setCurrency(selectedItem.name, selectedItem.value)
             }
 
@@ -55,7 +63,7 @@ class BookDetailActivity : AppCompatActivity() {
             }
         }
 
-        btnSeeExpense.setOnClickListener {
+        binding.content.btnSeeExpense.setOnClickListener {
             startActivity<ExpenseActivity>("bookId" to bookId, "lblTitle" to bookTitle)
         }
     }
@@ -100,15 +108,15 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     private fun setCurrency(name: String, value: Double) {
-        lblFoodTotal.text = name + " " + NumberFormat.getInstance().format(foodTotal / value)
-        lblTransportTotal.text = name + " " + NumberFormat.getInstance().format(transportTotal / value)
-        lblShopTotal.text = name + " " + NumberFormat.getInstance().format(shopTotal / value)
-        lblOthersTotal.text = name + " " + NumberFormat.getInstance().format(othersTotal / value)
-        lblAllTotal.text = name + " " + NumberFormat.getInstance().format(allTotal / value)
+        binding.content.lblFoodTotal.text = name + " " + NumberFormat.getInstance().format(foodTotal / value)
+        binding.content.lblTransportTotal.text = name + " " + NumberFormat.getInstance().format(transportTotal / value)
+        binding.content.lblShopTotal.text = name + " " + NumberFormat.getInstance().format(shopTotal / value)
+        binding.content.lblOthersTotal.text = name + " " + NumberFormat.getInstance().format(othersTotal / value)
+        binding.content.lblAllTotal.text = name + " " + NumberFormat.getInstance().format(allTotal / value)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (chart!!.visibility == View.VISIBLE) {
+        if (binding.content.chart!!.visibility == View.VISIBLE) {
             menu.getItem(0).isEnabled = false
         } else {
             menu.getItem(1).isEnabled = false
@@ -122,16 +130,18 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_view_chart) {
-            chart!!.visibility = View.VISIBLE
-            views.forEach { it.visibility = GONE }
-            invalidateOptionsMenu()
-        } else if (item.itemId == R.id.menu_view_list) {
-            chart!!.visibility = View.GONE
-            views.forEach { it.visibility = VISIBLE }
-            invalidateOptionsMenu()
-        } else if (item.itemId == android.R.id.home) {
-            finish()
+        when {
+            item.itemId == R.id.menu_view_chart -> {
+                binding.content.chart!!.visibility = View.VISIBLE
+                views.forEach { it.visibility = GONE }
+                invalidateOptionsMenu()
+            }
+            item.itemId == R.id.menu_view_list -> {
+                binding.content.chart!!.visibility = View.GONE
+                views.forEach { it.visibility = VISIBLE }
+                invalidateOptionsMenu()
+            }
+            item.itemId == android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
     }

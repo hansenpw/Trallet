@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.microlabs.trallet.databinding.ActivityAddNewBookBinding
 import com.microlabs.trallet.viewmodel.AddBookViewModel
-import kotlinx.android.synthetic.main.activity_add_new_book.*
 import kotlinx.android.synthetic.main.content_add_new_book.*
 
 class AddBookActivity : AppCompatActivity() {
@@ -16,22 +17,23 @@ class AddBookActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: AddBookViewModel
+    private lateinit var binding: ActivityAddNewBookBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_new_book)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_book)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProviders.of(this).get(AddBookViewModel::class.java)
 
         if (id != -1) {
-            txtEditTitle.setText(intent.getStringExtra("lblTitle"))
-            txtEditDescription.setText(intent.getStringExtra("lblDescription"))
+            binding.content.txtEditTitle.setText(intent.getStringExtra("lblTitle"))
+            binding.content.txtEditDescription.setText(intent.getStringExtra("lblDescription"))
         }
 
-        fab.setOnClickListener {
-            val title = txtEditTitle.text.toString()
+        binding.fab.setOnClickListener {
+            val title = binding.content.txtEditTitle.text.toString()
             if (title.isEmpty()) {
                 Toast.makeText(this, "Please Input Title", Toast.LENGTH_SHORT).show()
             } else {

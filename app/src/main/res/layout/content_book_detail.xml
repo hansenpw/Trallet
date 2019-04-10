@@ -1,188 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.microlabs.trallet.BookDetailActivity"
-    tools:showIn="@layout/activity_book_detail">
+<layout>
 
-    <Button
-        android:id="@+id/btnSeeExpense"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:text="See Expense List"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.microlabs.trallet.BookDetailActivity"
+        tools:showIn="@layout/activity_book_detail">
 
-    <TextView
-        android:id="@+id/lblTotal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:text="Total"
-        android:textColor="#000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/spinnerCurrency"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/btnSeeExpense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="See Expense List"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/lblFood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Food"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCurrency" />
+        <Spinner
+            android:id="@+id/spinnerCurrency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblFoodTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:text=""
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lblFood" />
+        <TextView
+            android:id="@+id/lblTotal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:text="Total"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/spinnerCurrency"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblTransport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Transport"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/lblFood"
-        app:layout_constraintTop_toBottomOf="@+id/lblFood" />
+        <TextView
+            android:id="@+id/lblFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Food"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCurrency" />
 
-    <TextView
-        android:id="@+id/lblTransportTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="@+id/lblFoodTotal"
-        app:layout_constraintRight_toRightOf="@+id/lblFoodTotal"
-        app:layout_constraintTop_toBottomOf="@+id/lblFoodTotal" />
+        <TextView
+            android:id="@+id/lblFoodTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lblFood" />
 
-    <TextView
-        android:id="@+id/lblShopTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="@+id/lblTransportTotal"
-        app:layout_constraintRight_toRightOf="@+id/lblTransportTotal"
-        app:layout_constraintTop_toBottomOf="@+id/lblTransportTotal" />
+        <TextView
+            android:id="@+id/lblTransport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Transport"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/lblFood"
+            app:layout_constraintTop_toBottomOf="@+id/lblFood" />
 
-    <TextView
-        android:id="@+id/lblShop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Shop"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/lblTransport"
-        app:layout_constraintTop_toBottomOf="@+id/lblTransport" />
+        <TextView
+            android:id="@+id/lblTransportTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/lblFoodTotal"
+            app:layout_constraintRight_toRightOf="@+id/lblFoodTotal"
+            app:layout_constraintTop_toBottomOf="@+id/lblFoodTotal" />
 
-    <TextView
-        android:id="@+id/lblOthers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Others"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/lblShop"
-        app:layout_constraintTop_toBottomOf="@+id/lblShop" />
+        <TextView
+            android:id="@+id/lblShopTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintLeft_toLeftOf="@+id/lblTransportTotal"
+            app:layout_constraintRight_toRightOf="@+id/lblTransportTotal"
+            app:layout_constraintTop_toBottomOf="@+id/lblTransportTotal" />
 
-    <TextView
-        android:id="@+id/lblOthersTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="@+id/lblShopTotal"
-        app:layout_constraintRight_toRightOf="@+id/lblShopTotal"
-        app:layout_constraintTop_toBottomOf="@+id/lblShopTotal" />
+        <TextView
+            android:id="@+id/lblShop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Shop"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/lblTransport"
+            app:layout_constraintTop_toBottomOf="@+id/lblTransport" />
 
-    <View
-        android:id="@+id/chart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/lblOthers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Others"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/lblShop"
+            app:layout_constraintTop_toBottomOf="@+id/lblShop" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="98dp"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="0dp" />
+        <TextView
+            android:id="@+id/lblOthersTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/lblShopTotal"
+            app:layout_constraintRight_toRightOf="@+id/lblShopTotal"
+            app:layout_constraintTop_toBottomOf="@+id/lblShopTotal" />
 
-    <Spinner
-        android:id="@+id/spinnerCurrency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/lblAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:text="All"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/lblOthers"
+            app:layout_constraintTop_toBottomOf="@+id/lblOthers" />
 
-    <TextView
-        android:id="@+id/lblAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
-        android:text="All"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/lblOthers"
-        app:layout_constraintTop_toBottomOf="@+id/lblOthers" />
+        <TextView
+            android:id="@+id/lblAllTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="0dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/lblShopTotal"
+            app:layout_constraintRight_toRightOf="@+id/lblOthersTotal"
+            app:layout_constraintTop_toBottomOf="@+id/lblOthersTotal" />
 
-    <TextView
-        android:id="@+id/lblAllTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="8dp"
-        android:text=""
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="@+id/lblShopTotal"
-        app:layout_constraintRight_toRightOf="@+id/lblOthersTotal"
-        app:layout_constraintTop_toBottomOf="@+id/lblOthersTotal" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/chart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="98dp"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

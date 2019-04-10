@@ -5,10 +5,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.microlabs.trallet.databinding.ActivityAddNewCurrencyBinding
 import com.microlabs.trallet.presenter.AddCurrencyActivityPresenter
 import com.microlabs.trallet.repo.DatabaseBookRepository
 import com.microlabs.trallet.view.AddCurrencyActivityView
-import kotlinx.android.synthetic.main.activity_add_new_currency.*
 import org.jetbrains.anko.*
 
 class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
@@ -17,29 +18,31 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
 
     private var id: Int = 0
 
+    private lateinit var binding: ActivityAddNewCurrencyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_new_currency)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_new_currency)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         id = intent.getIntExtra("currId", -1)
         if (id != -1) {
-            txtCurrName.setText(intent.getStringExtra("currName"))
-            txtCurrValue.setText(intent.getDoubleExtra("currValue", -1.0).toString())
+            binding.txtCurrName.setText(intent.getStringExtra("currName"))
+            binding.txtCurrValue.setText(intent.getDoubleExtra("currValue", -1.0).toString())
             supportActionBar!!.title = "Edit RCurrency"
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             // if new RCurrency is created
-            if (txtCurrName.text.toString().isEmpty() || txtCurrValue.text.toString().isEmpty()) {
+            if (binding.txtCurrName.text.toString().isEmpty() || binding.txtCurrValue.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please Input all Data", Toast.LENGTH_SHORT).show()
             } else {
                 if (id == -1) {
-                    presenter.insertNewCurrency(txtCurrName.text.toString(), txtCurrValue.text.toString().toDouble())
+                    presenter.insertNewCurrency(binding.txtCurrName.text.toString(), binding.txtCurrValue.text.toString().toDouble())
                 } else {
                     // if edit RCurrency
-                    presenter.updateCurrency(id, txtCurrName.text.toString(), txtCurrValue.text.toString().toDouble())
+                    presenter.updateCurrency(id, binding.txtCurrName.text.toString(), binding.txtCurrValue.text.toString().toDouble())
                     finish()
                 }
             }

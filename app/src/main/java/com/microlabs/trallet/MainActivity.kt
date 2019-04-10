@@ -6,49 +6,51 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.microlabs.trallet.adapter.BookRVAdapter
+import com.microlabs.trallet.databinding.ActivityMainBinding
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var bookRVAdapter: BookRVAdapter
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+//        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setSupportActionBar(binding.toolbar)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         setup()
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             startActivity<AddBookActivity>()
         }
     }
 
     private fun setup() {
-        rvBook.layoutManager = LinearLayoutManager(this)
-        rvBook.itemAnimator = DefaultItemAnimator()
+        binding.content.rvBook.layoutManager = LinearLayoutManager(this)
+        binding.content.rvBook.itemAnimator = DefaultItemAnimator()
         bookRVAdapter = BookRVAdapter(BookItemListener(this, validateDeleteBook))
-        rvBook.adapter = bookRVAdapter
+        binding.content.rvBook.adapter = bookRVAdapter
 
         viewModel.loadBooks().observe(this, Observer {
             if (it.isEmpty()) {
-                rvBook.visibility = View.GONE
-                txtEmpty.visibility = View.VISIBLE
+                binding.content.rvBook.visibility = View.GONE
+                binding.content.txtEmpty.visibility = View.VISIBLE
             } else {
-                txtEmpty.visibility = View.GONE
-                rvBook.visibility = View.VISIBLE
+                binding.content.txtEmpty.visibility = View.GONE
+                binding.content.rvBook.visibility = View.VISIBLE
             }
             info("live: ${it.size}")
             bookRVAdapter.submitList(it)

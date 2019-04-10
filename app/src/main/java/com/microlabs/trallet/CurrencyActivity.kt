@@ -3,14 +3,14 @@ package com.microlabs.trallet
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.adapter.CurrencyRVAdapter
+import com.microlabs.trallet.databinding.ActivityCurrencyBinding
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.presenter.CurrencyActivityPresenter
 import com.microlabs.trallet.repo.DatabaseBookRepository
-import kotlinx.android.synthetic.main.activity_currency.*
-import kotlinx.android.synthetic.main.content_currency.*
 import org.jetbrains.anko.startActivity
 
 class CurrencyActivity : AppCompatActivity() {
@@ -21,10 +21,12 @@ class CurrencyActivity : AppCompatActivity() {
         CurrencyActivityPresenter(null, DatabaseBookRepository())
     }
 
+    private lateinit var binding: ActivityCurrencyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_currency)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_currency)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         setUpUI()
@@ -37,11 +39,11 @@ class CurrencyActivity : AppCompatActivity() {
 
     private fun setUpUI() {
         val manager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvCurrency.layoutManager = manager
+        binding.content.rvCurrency.layoutManager = manager
         currencyRVAdapter = CurrencyRVAdapter(this)
-        rvCurrency.adapter = currencyRVAdapter
+        binding.content.rvCurrency.adapter = currencyRVAdapter
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             startActivity<AddCurrencyActivity>()
         }
     }

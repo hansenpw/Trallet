@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,11 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.microlabs.trallet.adapter.ExpenseRVAdapter
+import com.microlabs.trallet.databinding.ActivityExpenseBinding
 import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.view.ExpenseActivityView
 import com.microlabs.trallet.viewmodel.ExpenseViewModel
-import kotlinx.android.synthetic.main.activity_expense.*
-import kotlinx.android.synthetic.main.content_expense.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -26,6 +26,8 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
 //    private val presenter: ExpenseActivityPresenter by lazy { ExpenseActivityPresenter(this, DatabaseBookRepository()) }
 
     private lateinit var viewModel: ExpenseViewModel
+    private lateinit var binding: ActivityExpenseBinding
+
     private val expenseId = ArrayList<Int>()
     private var snackbar: Snackbar? = null
 
@@ -45,14 +47,14 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_expense)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_expense)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         bookId = intent.getIntExtra("bookId", -1)
 
         if (bookId != -1) {
-            lblDescription_Expense.text = intent.getStringExtra("lblTitle")
+            binding.content.lblDescriptionExpense.text = intent.getStringExtra("lblTitle")
         }
 
         viewModel = ViewModelProviders.of(this).get(ExpenseViewModel::class.java)
@@ -64,11 +66,11 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
         })
     }
 
-    fun setUpView() {
+    private fun setUpView() {
         adapter = ExpenseRVAdapter(itemListener)
         val mLayoutManager = LinearLayoutManager(applicationContext)
 
-        rvExpenseList.layoutManager = mLayoutManager
+        binding.content.rvExpenseList.layoutManager = mLayoutManager
 //        rvExpenseList.itemAnimator = DefaultItemAnimator()
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -97,10 +99,10 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
                 viewHolder.itemView.alpha = (viewHolder.itemView.width - Math.abs(dX)) / viewHolder.itemView.width
             }
         })
-        itemTouchHelper.attachToRecyclerView(rvExpenseList)
-        rvExpenseList.adapter = adapter
+        itemTouchHelper.attachToRecyclerView(binding.content.rvExpenseList)
+        binding.content.rvExpenseList.adapter = adapter
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             startActivity<AddExpensesActivity>("bookId" to bookId)
 //            presenter.addNewExpense()
         }

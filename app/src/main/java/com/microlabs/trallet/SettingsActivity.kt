@@ -3,19 +3,21 @@ package com.microlabs.trallet
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.content_settings.*
+import androidx.databinding.DataBindingUtil
+import com.microlabs.trallet.databinding.ActivitySettingsBinding
 import org.jetbrains.anko.*
 
 class SettingsActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySettingsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        btnDeleteAll.setOnClickListener { _ ->
+        binding.content.btnDeleteAll.setOnClickListener {
             alert("Are you sure want to delete all data?", "Delete all data?") {
                 yesButton {
 //                    Realm.getDefaultInstance().use {
@@ -30,7 +32,7 @@ class SettingsActivity : AppCompatActivity() {
             }.show()
         }
 
-        btnAbout.setOnClickListener { _ ->
+        binding.content.btnAbout.setOnClickListener {
             alert("Made by MicroLabs Developers\n" +
                     "AJ\n" +
                     "NA\n" +

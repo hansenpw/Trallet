@@ -3,15 +3,16 @@ package com.microlabs.trallet
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.microlabs.trallet.adapter.CategorySpinnerAdapter
 import com.microlabs.trallet.adapter.CurrencySpinnerAdapter
+import com.microlabs.trallet.databinding.ActivityAddExpensesBinding
 import com.microlabs.trallet.model.Category
 import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.viewmodel.AddExpenseViewModel
-import kotlinx.android.synthetic.main.activity_add_expenses.*
 import org.jetbrains.anko.toast
 
 class AddExpensesActivity : AppCompatActivity() {
@@ -24,11 +25,12 @@ class AddExpensesActivity : AppCompatActivity() {
     private lateinit var adapterCurr: CurrencySpinnerAdapter
 
     private lateinit var viewModel: AddExpenseViewModel
+    private lateinit var binding: ActivityAddExpensesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_expenses)
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_expenses)
+        setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProviders.of(this).get(AddExpenseViewModel::class.java)
@@ -46,29 +48,29 @@ class AddExpensesActivity : AppCompatActivity() {
             }
         }
 
-        fab.setOnClickListener {
-            if (txtExValue.text.toString().isEmpty() || txtExTitle.text.toString().isEmpty()) {
+        binding.fab.setOnClickListener {
+            if (binding.txtExValue.text.toString().isEmpty() || binding.txtExTitle.text.toString().isEmpty()) {
                 toast("Please Input All Required Data").show()
             } else {
-                val value = txtExValue.text.toString().toDouble()
+                val value = binding.txtExValue.text.toString().toDouble()
                 if (fromAdapterChecker == -1) {
                     viewModel.insertExpense(Expense(
-                            title = txtExTitle.text.toString(),
+                            title = binding.txtExTitle.text.toString(),
                             value = value,
-                            categoryId = (spinnerCategory.selectedItem as Category).id,
-                            currencyId = (spinnerCurrency.selectedItem as Currency).id,
+                            categoryId = (binding.spinnerCategory.selectedItem as Category).id,
+                            currencyId = (binding.spinnerCurrency.selectedItem as Currency).id,
                             bookId = bookId,
-                            details = txtDescription.text.toString()))
+                            details = binding.txtDescription.text.toString()))
                     finish()
                 } else {
                     viewModel.updateExpense(Expense(
                             id = fromAdapterChecker,
-                            title = txtExTitle.text.toString(),
+                            title = binding.txtExTitle.text.toString(),
                             value = value,
-                            categoryId = (spinnerCategory.selectedItem as Category).id,
-                            currencyId = (spinnerCurrency.selectedItem as Currency).id,
+                            categoryId = (binding.spinnerCategory.selectedItem as Category).id,
+                            currencyId = (binding.spinnerCurrency.selectedItem as Currency).id,
                             bookId = bookId,
-                            details = txtDescription.text.toString()
+                            details = binding.txtDescription.text.toString()
                     ))
                     finish()
                 }
@@ -137,12 +139,12 @@ class AddExpensesActivity : AppCompatActivity() {
     }*/
 
     private fun setupData(expense: Expense) {
-        txtExTitle.setText(expense.title)
-        txtDescription.setText(expense.details)
-        txtExValue.setText(expense.value.toString())
+        binding.txtExTitle.setText(expense.title)
+        binding.txtDescription.setText(expense.details)
+        binding.txtExValue.setText(expense.value.toString())
         oldValue = expense.value
-        spinnerCurrency.setSelection(adapterCurr.getPositionById(expense.currencyId))
-        spinnerCategory.setSelection(adapterCat.getPositionById(expense.categoryId))
+        binding.spinnerCurrency.setSelection(adapterCurr.getPositionById(expense.currencyId))
+        binding.spinnerCategory.setSelection(adapterCat.getPositionById(expense.categoryId))
     }
 
     fun showError() {
@@ -155,12 +157,12 @@ class AddExpensesActivity : AppCompatActivity() {
 
     private fun setupCategorySpinner(categoryList: List<Category>) {
         adapterCat = CategorySpinnerAdapter(this, R.layout.item_category, categoryList)
-        spinnerCategory.adapter = adapterCat
+        binding.spinnerCategory.adapter = adapterCat
     }
 
     private fun setupCurrencySpinner(currencyList: List<Currency>) {
         adapterCurr = CurrencySpinnerAdapter(this, R.layout.item_category, currencyList)
-        spinnerCurrency.adapter = adapterCurr
+        binding.spinnerCurrency.adapter = adapterCurr
     }
 
     /*companion object {
