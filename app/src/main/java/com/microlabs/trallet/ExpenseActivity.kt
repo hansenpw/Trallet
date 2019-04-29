@@ -28,7 +28,8 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
     private lateinit var viewModel: ExpenseViewModel
     private lateinit var binding: ActivityExpenseBinding
 
-    private val expenseId = ArrayList<Int>()
+    private val pendingDeleteExpenses = ArrayList<Expense>()
+    private var expenses: List<Expense> = ArrayList()
     private var snackbar: Snackbar? = null
 
     /**
@@ -36,12 +37,11 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
      */
     private val itemListener = object : ExpenseItemListener {
         override fun onEditClick(expenseId: Int) {
-//            presenter.editExpense(expenseId)
+            goToAddNewExpense(expenseId)
         }
 
-        override fun onDeleteClick(expenseId: Int) {
-//            presenter.deleteExpense(bookId, expenseId)
-            updateData()
+        override fun onDeleteClick(expense: Expense) {
+            viewModel.deleteExpense(expense)
         }
     }
 
@@ -62,6 +62,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
         setUpView()
 
         viewModel.loadExpensesByBookId(bookId).observe(this, Observer {
+            expenses = it
             adapter.updateData(it)
         })
     }
@@ -74,7 +75,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
 //        rvExpenseList.itemAnimator = DefaultItemAnimator()
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-                return ItemTouchHelper.Callback.makeMovementFlags(0, ItemTouchHelper.END or ItemTouchHelper.START)
+                return makeMovementFlags(0, ItemTouchHelper.END or ItemTouchHelper.START)
             }
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -88,7 +89,7 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
                     snackbar!!.dismiss()
                     createSnackbar()
                 }
-                expenseId.add((viewHolder as ExpenseRVAdapter.ViewHolder).item.id)
+                pendingDeleteExpenses.add((viewHolder as ExpenseRVAdapter.ViewHolder).item)
                 adapter.removeExpense(viewHolder.getAdapterPosition())
                 snackbar!!.show()
             }
@@ -111,15 +112,15 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
     private fun createSnackbar() {
         snackbar = Snackbar.make(currentFocus!!, "Expense Deleted", Snackbar.LENGTH_SHORT)
                 .setAction("Undo") {
-                    expenseId.removeAt(0)
-                    updateData()
+                    pendingDeleteExpenses.removeAt(0)
+                    adapter.updateData(expenses)
                 }.addCallback(object : Snackbar.Callback() {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
-                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT || event == Snackbar.Callback.DISMISS_EVENT_SWIPE || event == Snackbar.Callback.DISMISS_EVENT_MANUAL) {
-//                            presenter.deleteExpense(bookId, expenseId[0])
-                            expenseId.removeAt(0)
-                            if (expenseId.size == 0) {
+                        if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_MANUAL) {
+                            viewModel.deleteExpense(pendingDeleteExpenses[0])
+                            pendingDeleteExpenses.removeAt(0)
+                            if (pendingDeleteExpenses.size == 0) {
                                 updateData()
                             }
                         }
@@ -158,6 +159,6 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
     interface ExpenseItemListener {
         fun onEditClick(expenseId: Int)
 
-        fun onDeleteClick(expenseId: Int)
+        fun onDeleteClick(expense: Expense)
     }
 }

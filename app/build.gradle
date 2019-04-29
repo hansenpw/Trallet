@@ -11,6 +11,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'io.fabric'
 
 repositories {
@@ -59,19 +60,22 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.anko:anko-commons:${anko_version}"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0-alpha-2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha04'
 
-    implementation 'androidx.room:room-runtime:2.1.0-alpha06'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
-    implementation "androidx.room:room-ktx:2.1.0-alpha06"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.1.0-alpha02"
+    implementation "androidx.navigation:navigation-ui-ktx:2.1.0-alpha02"
+
+    implementation 'androidx.room:room-runtime:2.1.0-alpha07'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
+    implementation 'androidx.room:room-ktx:2.1.0-alpha07'
 
     implementation 'com.google.android.material:material:1.1.0-alpha05'
 
@@ -84,9 +88,9 @@ dependencies {
 
 
     testImplementation 'junit:junit:4.13-beta-2'
-    testImplementation 'org.mockito:mockito-core:2.26.0'
+    testImplementation 'org.mockito:mockito-core:2.27.0'
 
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0-alpha03', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0-alpha04', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }

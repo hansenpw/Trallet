@@ -5,6 +5,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.microlabs.trallet.databinding.ActivitySettingsBinding
+import com.microlabs.trallet.repo.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -20,6 +24,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.content.btnDeleteAll.setOnClickListener {
             alert("Are you sure want to delete all data?", "Delete all data?") {
                 yesButton {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        AppDatabase.getInstance(applicationContext).bookDao().deleteAllBooks()
+                    }
 //                    Realm.getDefaultInstance().use {
 //                        it.deleteAll()
 //                    }

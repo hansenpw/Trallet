@@ -19,6 +19,9 @@ interface BookDao {
     @Delete
     suspend fun deleteBook(book: Book)
 
+    @Query("DELETE FROM books")
+    suspend fun deleteAllBooks()
+
     @Update
     suspend fun updateBook(book: Book)
 

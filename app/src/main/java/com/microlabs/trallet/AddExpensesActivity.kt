@@ -20,9 +20,10 @@ class AddExpensesActivity : AppCompatActivity() {
     private var bookId: Int = 0
     private var fromAdapterChecker: Int = -1 //Expense Id
     private var oldValue: Double = 0.0
+    private var oldExpense: Expense? = null
 
-    private lateinit var adapterCat: CategorySpinnerAdapter
-    private lateinit var adapterCurr: CurrencySpinnerAdapter
+    private var adapterCat: CategorySpinnerAdapter? = null
+    private var adapterCurr: CurrencySpinnerAdapter? = null
 
     private lateinit var viewModel: AddExpenseViewModel
     private lateinit var binding: ActivityAddExpensesBinding
@@ -36,17 +37,6 @@ class AddExpensesActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(AddExpenseViewModel::class.java)
 
         setUp()
-
-        bookId = intent.getIntExtra("bookId", -1)
-        if (bookId != -1) {
-            fromAdapterChecker = intent.getIntExtra("fromAdapter", -1)
-            if (fromAdapterChecker != -1) {
-//                presenter.getExpenseData(fromAdapterChecker)
-                viewModel.getExpenseById(fromAdapterChecker).observe(this, Observer {
-                    setupData(it)
-                })
-            }
-        }
 
         binding.fab.setOnClickListener {
             if (binding.txtExValue.text.toString().isEmpty() || binding.txtExTitle.text.toString().isEmpty()) {
@@ -74,6 +64,18 @@ class AddExpensesActivity : AppCompatActivity() {
                     ))
                     finish()
                 }
+            }
+        }
+
+        bookId = intent.getIntExtra("bookId", -1)
+        if (bookId != -1) {
+            fromAdapterChecker = intent.getIntExtra("fromAdapter", -1)
+            if (fromAdapterChecker != -1) {
+                viewModel.getExpenseById(fromAdapterChecker).observe(this, Observer {
+                    if (!isFinishing) {
+                        setupData(it)
+                    }
+                })
             }
         }
     }
@@ -139,12 +141,18 @@ class AddExpensesActivity : AppCompatActivity() {
     }*/
 
     private fun setupData(expense: Expense) {
+        oldExpense = expense
         binding.txtExTitle.setText(expense.title)
         binding.txtDescription.setText(expense.details)
         binding.txtExValue.setText(expense.value.toString())
         oldValue = expense.value
-        binding.spinnerCurrency.setSelection(adapterCurr.getPositionById(expense.currencyId))
-        binding.spinnerCategory.setSelection(adapterCat.getPositionById(expense.categoryId))
+        if (adapterCat != null) {
+            binding.spinnerCategory.setSelection(adapterCat!!.getPositionById(expense.categoryId), true)
+        }
+        if (adapterCurr != null) {
+            binding.spinnerCurrency.setSelection(adapterCurr!!.getPositionById(expense.currencyId), true)
+        }
+        viewModel.getExpenseById(fromAdapterChecker).removeObservers(this)
     }
 
     fun showError() {
@@ -158,11 +166,17 @@ class AddExpensesActivity : AppCompatActivity() {
     private fun setupCategorySpinner(categoryList: List<Category>) {
         adapterCat = CategorySpinnerAdapter(this, R.layout.item_category, categoryList)
         binding.spinnerCategory.adapter = adapterCat
+        if (oldExpense != null) {
+            binding.spinnerCategory.setSelection(adapterCat!!.getPositionById(oldExpense!!.categoryId), true)
+        }
     }
 
     private fun setupCurrencySpinner(currencyList: List<Currency>) {
         adapterCurr = CurrencySpinnerAdapter(this, R.layout.item_category, currencyList)
         binding.spinnerCurrency.adapter = adapterCurr
+        if (oldExpense != null) {
+            binding.spinnerCurrency.setSelection(adapterCurr!!.getPositionById(oldExpense!!.currencyId), true)
+        }
     }
 
     /*companion object {

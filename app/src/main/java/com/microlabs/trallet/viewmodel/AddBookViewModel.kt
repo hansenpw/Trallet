@@ -2,11 +2,11 @@ package com.microlabs.trallet.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.repo.AppDatabase
 import com.microlabs.trallet.repo.BookDao
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class AddBookViewModel(application: Application) : AndroidViewModel(application) {
@@ -21,7 +21,7 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
      */
     fun insertNewBook(title: String, desc: String) {
         try {
-            GlobalScope.launch(context = Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO) {
                 bookRepository.insertBook(Book(title = title, desc = desc))
             }
         } catch (e: Exception) {
@@ -38,7 +38,7 @@ class AddBookViewModel(application: Application) : AndroidViewModel(application)
      */
     fun updateBook(id: Int, title: String, desc: String) {
         try {
-            GlobalScope.launch(Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO) {
                 bookRepository.updateBookById(id, title, desc)
             }
         } catch (e: Exception) {

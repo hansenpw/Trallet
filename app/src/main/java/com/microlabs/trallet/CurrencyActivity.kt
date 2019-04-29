@@ -4,23 +4,19 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.adapter.CurrencyRVAdapter
 import com.microlabs.trallet.databinding.ActivityCurrencyBinding
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.presenter.CurrencyActivityPresenter
-import com.microlabs.trallet.repo.DatabaseBookRepository
+import com.microlabs.trallet.viewmodel.CurrencyViewModel
 import org.jetbrains.anko.startActivity
 
 class CurrencyActivity : AppCompatActivity() {
 
     private lateinit var currencyRVAdapter: CurrencyRVAdapter
-
-    private val presenter: CurrencyActivityPresenter by lazy {
-        CurrencyActivityPresenter(null, DatabaseBookRepository())
-    }
-
+    private lateinit var viewModel: CurrencyViewModel
     private lateinit var binding: ActivityCurrencyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,11 +26,11 @@ class CurrencyActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         setUpUI()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.loadCurrency()
+        viewModel = ViewModelProviders.of(this).get(CurrencyViewModel::class.java)
+        viewModel.getAllCurrencies().observe(this, Observer {
+            currencyRVAdapter.updateList(it)
+        })
     }
 
     private fun setUpUI() {
@@ -51,14 +47,5 @@ class CurrencyActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) finish()
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-//        presenter.close()
-        super.onDestroy()
-    }
-
-    fun showCurrencyList(RCurrencyList: List<Currency>) {
-        currencyRVAdapter.updateList(RCurrencyList)
     }
 }

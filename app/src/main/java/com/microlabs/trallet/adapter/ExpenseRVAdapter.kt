@@ -67,7 +67,7 @@ class ExpenseRVAdapter(internal var itemListener: ExpenseActivity.ExpenseItemLis
                 itemListener.onEditClick(item.id)
             }
             btnDelete.setOnClickListener {
-                itemListener.onDeleteClick(item.id)
+                itemListener.onDeleteClick(item)
             }
             cvExpense.setOnClickListener {
                 itemListener.onEditClick(item.id)

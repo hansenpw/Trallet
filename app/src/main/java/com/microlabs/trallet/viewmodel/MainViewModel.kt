@@ -2,11 +2,11 @@ package com.microlabs.trallet.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.repo.AppDatabase
 import com.microlabs.trallet.repo.BookDao
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -44,7 +44,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * @param id = bookId to remove
      */
     fun deleteBook(book: Book) {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             bookRepository.deleteBook(book)
         }
         /*TODO: use invoke on complete using live data of sealed class*/
