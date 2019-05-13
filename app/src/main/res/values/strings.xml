@@ -12,4 +12,7 @@
     <string name="empty_book_message">No Books Yet!\nPress + button to create a new book!</string>
     <string name="book_title">Book Title</string>
     <string name="description_optional">Description (optional)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.microlabs.trallet.databinding.ActivityAddNewBookBinding
+import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.AddBookViewModel
 import kotlinx.android.synthetic.main.content_add_new_book.*
 
 class AddBookActivity : AppCompatActivity() {
 
-    private val id: Int by lazy {
-        intent.getIntExtra("id", -1)
+    private val book: Book? by lazy {
+        intent.getParcelableExtra("book") as Book?
     }
 
     private lateinit var viewModel: AddBookViewModel
@@ -27,9 +28,9 @@ class AddBookActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(AddBookViewModel::class.java)
 
-        if (id != -1) {
-            binding.content.txtEditTitle.setText(intent.getStringExtra("lblTitle"))
-            binding.content.txtEditDescription.setText(intent.getStringExtra("lblDescription"))
+        if (book != null) {
+            binding.content.txtEditTitle.setText(book!!.title)
+            binding.content.txtEditDescription.setText(book!!.desc)
         }
 
         binding.fab.setOnClickListener {
@@ -37,10 +38,10 @@ class AddBookActivity : AppCompatActivity() {
             if (title.isEmpty()) {
                 Toast.makeText(this, "Please Input Title", Toast.LENGTH_SHORT).show()
             } else {
-                if (id == -1) {
+                if (book == null) {
                     viewModel.insertNewBook(title, txtEditDescription.text.toString())
                 } else {
-                    viewModel.updateBook(id, title, txtEditDescription.text.toString())
+                    viewModel.updateBook(book!!.id, title, txtEditDescription.text.toString())
                 }
                 finish()
             }

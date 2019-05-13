@@ -1,7 +1,6 @@
 package com.microlabs.trallet.repo
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -14,6 +13,7 @@ import com.microlabs.trallet.model.Expense
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Database(entities = [Book::class, Expense::class, Currency::class, Category::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
         fun getInstance(context: Context): AppDatabase = INSTANCE ?: synchronized(this) {
             buildDatabase(context).also {
                 INSTANCE = it
-                Log.i("appdatabase", "set instance")
+                Timber.i("set instance")
             }
         }
 
@@ -44,19 +44,19 @@ abstract class AppDatabase : RoomDatabase() {
                         .addCallback(object : Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
-                                Log.i("trallet appdatabase", "oncreate callback")
+                                Timber.i("oncreate callback")
                                 GlobalScope.launch(Dispatchers.IO) {
-                                    Log.i("trallet appdatabase", "start execute callback")
+                                    Timber.i("start execute callback")
                                     val category1 = Category(name = "Foods", imgId = R.drawable.ic_local_dining_black_24dp)
                                     val category2 = Category(name = "Transport", imgId = R.drawable.ic_local_taxi_black_24dp)
                                     val category3 = Category(name = "Shop", imgId = R.drawable.ic_shopping_basket_black_24dp)
                                     val category4 = Category(name = "Others", imgId = R.drawable.ic_local_atm_black_24dp)
-                                    val appDatabase = AppDatabase.getInstance(context)
+                                    val appDatabase = getInstance(context)
                                     appDatabase.categoryDao().insertCategory(category1, category2, category3, category4)
                                     val currency1 = Currency(name = "IDR Rp", value = 1.0)
                                     val currency2 = Currency(name = "USD $", value = 14800.0)
                                     appDatabase.currencyDao().insertCurrency(currency1, currency2)
-                                    Log.i("trallet appdatabase", "done execute callback")
+                                    Timber.i("done execute callback")
                                 }
                             }
                         })

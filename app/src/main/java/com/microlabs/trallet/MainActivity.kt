@@ -4,57 +4,55 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.microlabs.trallet.adapter.BookRVAdapter
+import com.microlabs.trallet.base.BaseActivity
 import com.microlabs.trallet.databinding.ActivityMainBinding
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.MainViewModel
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.yesButton
 
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+
+    override val layout: Int = R.layout.activity_main
 
     private lateinit var bookRVAdapter: BookRVAdapter
-    private lateinit var viewModel: MainViewModel
-    private lateinit var binding: ActivityMainBinding
+
+    override fun initViewModel(): MainViewModel {
+        return ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
-
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         setup()
 
-        binding.fab.setOnClickListener {
-            startActivity<AddBookActivity>()
-        }
+//        binding.fab.setOnClickListener {
+//            startActivity<AddBookActivity>()
+//        }
     }
 
     private fun setup() {
-        binding.content.rvBook.layoutManager = LinearLayoutManager(this)
-        binding.content.rvBook.itemAnimator = DefaultItemAnimator()
-        bookRVAdapter = BookRVAdapter(BookItemListener(this, validateDeleteBook))
-        binding.content.rvBook.adapter = bookRVAdapter
+//        binding.content.rvBook.layoutManager = LinearLayoutManager(this)
+//        binding.content.rvBook.itemAnimator = DefaultItemAnimator()
+//        bookRVAdapter = BookRVAdapter(MainActivity.BookItemListener(this, validateDeleteBook))
+//        binding.content.rvBook.adapter = bookRVAdapter
 
-        viewModel.loadBooks().observe(this, Observer {
-            if (it.isEmpty()) {
-                binding.content.rvBook.visibility = View.GONE
-                binding.content.txtEmpty.visibility = View.VISIBLE
-            } else {
-                binding.content.txtEmpty.visibility = View.GONE
-                binding.content.rvBook.visibility = View.VISIBLE
-            }
-            info("live: ${it.size}")
-            bookRVAdapter.submitList(it)
-        })
+//        viewModel.loadBooks().observe(this, Observer {
+//            if (it.isEmpty()) {
+//                binding.content.rvBook.visibility = View.GONE
+//                binding.content.txtEmpty.visibility = View.VISIBLE
+//            } else {
+//                binding.content.txtEmpty.visibility = View.GONE
+//                binding.content.rvBook.visibility = View.VISIBLE
+//            }
+//            Timber.i("live: ${it.size}")
+//            bookRVAdapter.submitList(it)
+//        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,8 +94,8 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             validateDeleteBook(book)
         }
 
-        fun onEditClick(bookId: Int, bookTitle: String, bookDesc: String) {
-            context.startActivity<AddBookActivity>("id" to bookId, "lblTitle" to bookTitle, "lblDescription" to bookDesc)
+        fun onEditClick(book: Book) {
+            context.startActivity<AddBookActivity>("book" to book)
         }
 
         fun onBookClick(bookId: Int, bookTitle: String) {

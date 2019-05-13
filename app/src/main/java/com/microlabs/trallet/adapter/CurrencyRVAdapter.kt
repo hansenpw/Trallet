@@ -3,6 +3,7 @@ package com.microlabs.trallet.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.AddCurrencyActivity
 import com.microlabs.trallet.R
 import com.microlabs.trallet.model.Currency
@@ -13,7 +14,7 @@ import java.text.DecimalFormat
 /**
  * RCurrency RecyclerView Adapter
  */
-class CurrencyRVAdapter(private val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<CurrencyRVAdapter.ViewHolder>() {
+class CurrencyRVAdapter(private val context: Context) : RecyclerView.Adapter<CurrencyRVAdapter.ViewHolder>() {
 
     private val currencyList = ArrayList<Currency>()
 
@@ -29,7 +30,7 @@ class CurrencyRVAdapter(private val context: Context) : androidx.recyclerview.wi
         return currencyList.size
     }
 
-    fun updateList(currencyList: List<com.microlabs.trallet.model.Currency>) {
+    fun updateList(currencyList: List<Currency>) {
         this.currencyList.clear()
         this.currencyList.addAll(currencyList)
         notifyDataSetChanged()
@@ -45,13 +46,13 @@ class CurrencyRVAdapter(private val context: Context) : androidx.recyclerview.wi
         notifyItemInserted(position)
     }
 
-    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         lateinit var item: Currency
         private var decimalFormat: DecimalFormat = DecimalFormat("###.#")
-        val txtCurrName = itemView.txtCurrName!!
-        val txtCurrPrice = itemView.txtCurrPrice!!
-        val cvCurrency = itemView.cvCurrency!!
+        private val txtCurrName = itemView.txtCurrName!!
+        private val txtCurrPrice = itemView.txtCurrPrice!!
+        private val cvCurrency = itemView.cvCurrency!!
 
         internal fun updateItem(item: Currency) {
             this.item = item

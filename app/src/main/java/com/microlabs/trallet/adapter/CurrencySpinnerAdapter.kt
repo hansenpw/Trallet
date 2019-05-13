@@ -36,8 +36,4 @@ class CurrencySpinnerAdapter(context: Context, resource: Int, private val curren
     fun getPositionById(currencyId: Int): Int {
         return currencyList.indexOfFirst { it.id == currencyId }
     }
-
-//    fun getPosition(currId: Int): Int {
-//        return super.getPosition(getCurrencyById(currId))
-//    }
 }

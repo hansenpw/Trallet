@@ -45,12 +45,12 @@ class ExpenseRVAdapter(internal var itemListener: ExpenseActivity.ExpenseItemLis
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         lateinit var item: Expense
-        val txtExTitle = itemView.txtExTitle
-        val txtExPrice = itemView.txtExPrice
-        val imgExpense = itemView.imgExpense
-        val btnEdit = itemView.btnEdit
-        val btnDelete = itemView.btnDelete
-        val cvExpense = itemView.cvExpense
+        private val txtExTitle = itemView.txtExTitle
+        private val txtExPrice = itemView.txtExPrice
+        private val imgExpense = itemView.imgExpense
+        private val btnEdit = itemView.btnEdit
+        private val btnDelete = itemView.btnDelete
+        private val cvExpense = itemView.cvExpense
 
         internal fun updateItem(item: Expense) {
             this.item = item

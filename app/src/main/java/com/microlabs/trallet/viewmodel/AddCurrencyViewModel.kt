@@ -14,19 +14,31 @@ class AddCurrencyViewModel(application: Application) : AndroidViewModel(applicat
 
     fun insertCurrency(currency: Currency) {
         viewModelScope.launch(Dispatchers.IO) {
-            database.currencyDao().insertCurrency(currency)
+            try {
+                database.currencyDao().insertCurrency(currency)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun updateCurrency(currency: Currency) {
         viewModelScope.launch(Dispatchers.IO) {
-            database.currencyDao().updateCurrency(currency)
+            try {
+                database.currencyDao().updateCurrency(currency)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    fun deleteCurrency(currency: Currency) {
+    fun deleteCurrency(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            database.currencyDao().deleteCurrency(currency)
+            try {
+                database.currencyDao().deleteCurrency(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

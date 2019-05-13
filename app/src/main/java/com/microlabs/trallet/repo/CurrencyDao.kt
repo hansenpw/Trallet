@@ -1,7 +1,10 @@
 package com.microlabs.trallet.repo
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.microlabs.trallet.model.Currency
 
 @Dao
@@ -16,6 +19,6 @@ interface CurrencyDao {
     @Update
     suspend fun updateCurrency(currency: Currency)
 
-    @Delete
-    suspend fun deleteCurrency(currency: Currency)
+    @Query("DELETE FROM currencies WHERE id = :id")
+    suspend fun deleteCurrency(id: Int)
 }

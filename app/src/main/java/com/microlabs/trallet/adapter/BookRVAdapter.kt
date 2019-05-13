@@ -1,6 +1,5 @@
 package com.microlabs.trallet.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.microlabs.trallet.BR
-import com.microlabs.trallet.MainActivity
+import com.microlabs.trallet.BookListFragment
 import com.microlabs.trallet.R
 import com.microlabs.trallet.databinding.ItemBooksBinding
 import com.microlabs.trallet.model.Book
@@ -17,17 +16,15 @@ import com.microlabs.trallet.model.Book
 /**
  * Book RecyclerView Adapter
  */
-class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) :
+class BookRVAdapter(private val itemListener: BookListFragment.BookItemListener) :
         ListAdapter<Book, BookRVAdapter.ItemHolder>(Callback) {
 
     object Callback : DiffUtil.ItemCallback<Book>() {
         override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-            Log.d("rv", "rv items same")
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-            Log.d("rv", "rv contents same")
             return oldItem == newItem
         }
     }
@@ -38,10 +35,6 @@ class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) :
                 R.layout.item_books,
                 parent,
                 false)
-//        val view = LayoutInflater.from(parent.context).inflate(
-//                R.layout.item_books,
-//                parent,
-//                false)
         return ItemHolder(binding.root)
     }
 
@@ -54,10 +47,7 @@ class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) :
             get() = DataBindingUtil.getBinding(itemView)
 
         fun bind(book: Book) {
-//            view.lblTitle.text = book.title
-//            view.lblDescription.text = book.desc
             binding?.setVariable(BR.book, book)
-//            itemBinding.setVariable(BR.itemListener, itemListener)
             binding?.btnDelete?.setOnClickListener {
                 itemListener.onDeleteClick(book)
             }
@@ -65,7 +55,7 @@ class BookRVAdapter(private val itemListener: MainActivity.BookItemListener) :
                 itemListener.onDetailClick(book.id, book.title)
             }
             binding?.btnEditCard?.setOnClickListener {
-                itemListener.onEditClick(book.id, book.title, book.desc)
+                itemListener.onEditClick(book)
             }
             binding?.btnAddExpense?.setOnClickListener {
                 itemListener.onAddExpenseClick(book.id, book.title)

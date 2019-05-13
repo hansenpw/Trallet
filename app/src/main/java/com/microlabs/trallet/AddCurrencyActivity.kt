@@ -3,7 +3,6 @@ package com.microlabs.trallet
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -32,20 +31,19 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
         if (id != -1) {
             binding.txtCurrName.setText(intent.getStringExtra("currName"))
             binding.txtCurrValue.setText(intent.getDoubleExtra("currValue", -1.0).toString())
-            supportActionBar!!.title = "Edit RCurrency"
+            supportActionBar!!.title = "Edit Currency"
         }
 
         binding.btnSave.setOnClickListener {
-            // if new RCurrency is created
-            if (binding.txtCurrName.text.toString().isEmpty() || binding.txtCurrValue.text.toString().isEmpty()) {
-                Toast.makeText(this, "Please Input all Data", Toast.LENGTH_SHORT).show()
+            if (binding.txtCurrName.text.toString().isBlank() || binding.txtCurrValue.text.toString().isBlank()) {
+                toast( "Please Input all Data")
             } else {
                 if (id == -1) {
                     viewModel.insertCurrency(Currency(name = binding.txtCurrName.text.toString(), value = binding.txtCurrValue.text.toString().toDouble()))
-//                    presenter.insertNewCurrency(binding.txtCurrName.text.toString(), binding.txtCurrValue.text.toString().toDouble())
+                    finish()
                 } else {
                     // if edit RCurrency
-//                    presenter.updateCurrency(id, binding.txtCurrName.text.toString(), binding.txtCurrValue.text.toString().toDouble())
+                    viewModel.updateCurrency(Currency(id, binding.txtCurrName.text.toString(), binding.txtCurrValue.text.toString().toDouble()))
                     finish()
                 }
             }
@@ -61,16 +59,16 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-        } else if (item.itemId == R.id.menuDelete) {
+        when {
+            item.itemId == android.R.id.home -> finish()
+            item.itemId == R.id.menuDelete -> validateDeleteCurrency()
 //            presenter.validateDeleteCurrency(id)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun showError() {
-        toast("Fail to save RCurrency").show()
+        toast("Fail to save currency").show()
     }
 
     override fun done() {
@@ -79,7 +77,7 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
 
     override fun showDuplicateError() {
         alert {
-            message = "RCurrency Name has exists. Please change the currency name to prevent duplication."
+            message = "Currency Name has exists. Please change the currency name to prevent duplication."
             okButton {
                 it.dismiss()
             }
@@ -90,7 +88,7 @@ class AddCurrencyActivity : AppCompatActivity(), AddCurrencyActivityView {
         alert {
             message = "Are you sure want to delete this currency?"
             yesButton {
-                //                presenter.deleteCurrency(id)
+                viewModel.deleteCurrency(id)
             }
             noButton { it.dismiss() }
         }.show()
