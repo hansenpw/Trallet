@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.microlabs.trallet.databinding.FragmentAddBookBinding
-import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.AddBookViewModel
 import kotlinx.android.synthetic.main.content_add_new_book.*
 
 class AddBookFragment : Fragment() {
 
-    private val book: Book? = null
+    private val args: AddBookFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentAddBookBinding
-    private lateinit var viewModel: AddBookViewModel
+    private val viewModel: AddBookViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -29,11 +29,11 @@ class AddBookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(AddBookViewModel::class.java)
-
-        if (book != null) {
-            binding.txtEditTitle.setText(book.title)
-            binding.txtEditDescription.setText(book.desc)
+        args.book.let {book ->
+            if (book != null) {
+                binding.txtEditTitle.setText(book.title)
+                binding.txtEditDescription.setText(book.desc)
+            }
         }
 
         binding.fab.setOnClickListener {
@@ -41,10 +41,10 @@ class AddBookFragment : Fragment() {
             if (title.isEmpty()) {
                 Toast.makeText(context, "Please Input Title", Toast.LENGTH_SHORT).show()
             } else {
-                if (book == null) {
+                if (args.book == null) {
                     viewModel.insertNewBook(title, txtEditDescription.text.toString())
                 } else {
-                    viewModel.updateBook(book.id, title, txtEditDescription.text.toString())
+                    viewModel.updateBook(args.book!!.id, title, txtEditDescription.text.toString())
                 }
             }
         }

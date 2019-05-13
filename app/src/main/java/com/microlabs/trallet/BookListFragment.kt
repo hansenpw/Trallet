@@ -1,9 +1,7 @@
 package com.microlabs.trallet
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +12,10 @@ import com.microlabs.trallet.adapter.BookRVAdapter
 import com.microlabs.trallet.databinding.FragmentBookListBinding
 import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.MainViewModel
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.yesButton
 import timber.log.Timber
 
 class BookListFragment : Fragment() {
@@ -55,22 +57,36 @@ class BookListFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(BookListFragmentDirections.actionBookListFragmentToAddBookFragment())
         }
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_currency) context?.startActivity<CurrencyActivity>()
+        else if (item.itemId == R.id.menu_settings) context?.startActivity<SettingsActivity>()
+
+        return super.onOptionsItemSelected(item)
     }
 
     /**
      * Validation to Delete Book
      */
     private val validateDeleteBook = fun(book: Book) {
-//
-//        alert("Are you sure want to delete ${book.title} book?", "Delete Confirmation") {
-//            yesButton {
-//                it.dismiss()
-//                viewModel.deleteBook(book)
-//            }
-//            noButton {
-//                it.dismiss()
-//            }
-//        }.show()
+
+        context?.alert("Are you sure want to delete ${book.title} book?", "Delete Confirmation") {
+            yesButton {
+                it.dismiss()
+                viewModel.deleteBook(book)
+            }
+            noButton {
+                it.dismiss()
+            }
+        }?.show()
     }
 
     /**

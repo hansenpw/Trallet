@@ -2,10 +2,10 @@ package com.microlabs.trallet
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
-import com.microlabs.trallet.adapter.BookRVAdapter
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.microlabs.trallet.base.BaseActivity
 import com.microlabs.trallet.databinding.ActivityMainBinding
 import com.microlabs.trallet.model.Book
@@ -19,7 +19,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val layout: Int = R.layout.activity_main
 
-    private lateinit var bookRVAdapter: BookRVAdapter
+//    private lateinit var bookRVAdapter: BookRVAdapter
 
     override fun initViewModel(): MainViewModel {
         return ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -53,19 +53,23 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 //            Timber.i("live: ${it.size}")
 //            bookRVAdapter.submitList(it)
 //        })
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_currency) startActivity<CurrencyActivity>()
-        else if (item.itemId == R.id.menu_settings) startActivity<SettingsActivity>()
-
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == R.id.menu_currency) startActivity<CurrencyActivity>()
+//        else if (item.itemId == R.id.menu_settings) startActivity<SettingsActivity>()
+//
+//        return super.onOptionsItemSelected(item)
+//    }
 
     /**
      * Validation to Delete Book
