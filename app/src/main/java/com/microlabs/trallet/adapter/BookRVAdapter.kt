@@ -58,7 +58,7 @@ class BookRVAdapter(private val itemListener: BookListFragment.BookItemListener)
                 itemListener.onEditClick(book)
             }
             binding?.btnAddExpense?.setOnClickListener {
-                itemListener.onAddExpenseClick(book.id, book.title)
+                itemListener.onAddExpenseClick(book)
             }
             binding?.executePendingBindings()
         }

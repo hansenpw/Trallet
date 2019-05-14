@@ -30,15 +30,26 @@
     <fragment
         android:id="@+id/expenseFragment"
         android:name="com.microlabs.trallet.ExpenseFragment"
-        android:label="fragment_expense"
-        tools:layout="@layout/fragment_expense" >
+        android:label="Expenses"
+        tools:layout="@layout/fragment_expense">
         <action
             android:id="@+id/action_expenseFragment_to_addExpenseFragment"
             app:destination="@id/addExpenseFragment" />
+        <argument
+            android:name="book"
+            app:argType="com.microlabs.trallet.model.Book" />
     </fragment>
     <fragment
         android:id="@+id/addExpenseFragment"
         android:name="com.microlabs.trallet.AddExpenseFragment"
-        android:label="fragment_add_expense"
-        tools:layout="@layout/fragment_add_expense" />
+        android:label="Add Expense"
+        tools:layout="@layout/fragment_add_expense">
+        <argument
+            android:name="bookId"
+            app:argType="integer" />
+        <argument
+            android:name="expenseId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 </navigation>

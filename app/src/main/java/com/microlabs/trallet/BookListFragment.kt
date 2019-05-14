@@ -107,10 +107,12 @@ class BookListFragment : Fragment() {
         }
 
         fun onBookClick(bookId: Int, bookTitle: String) {
+//            context.findNavController().navigate(BookListFragmentDirections.actionBookListFragmentToExpenseFragment(bookId, bookTitle))
 //            context.startActivity<ExpenseActivity>("bookId" to bookId, "lblTitle" to bookTitle)
         }
 
-        fun onAddExpenseClick(bookId: Int, bookTitle: String) {
+        fun onAddExpenseClick(book: Book) {
+            context.findNavController().navigate(BookListFragmentDirections.actionBookListFragmentToExpenseFragment(book))
 //            context.startActivity<ExpenseActivity>("bookId" to bookId, "lblTitle" to bookTitle)
         }
     }

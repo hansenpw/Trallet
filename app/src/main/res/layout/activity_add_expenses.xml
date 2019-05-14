@@ -9,7 +9,7 @@
         android:fitsSystemWindows="true"
         tools:context="com.microlabs.trallet.AddCurrencyActivity">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_24"
@@ -19,17 +19,42 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <EditText
-                android:id="@+id/txtDescription"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtLyExTitle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Input Description"
-                android:inputType="textMultiLine" />
+                android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+                android:hint="Expense Title"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtExTitle"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ex: Lunch at food court"
+                    android:inputType="textCapSentences"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:textSize="18sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+                android:id="@+id/containerCurrency"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLyExTitle"
                 android:orientation="horizontal">
 
                 <Spinner
@@ -54,6 +79,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:id="@+id/containerCategory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/containerCurrency"
                 android:orientation="horizontal">
 
                 <Spinner
@@ -78,6 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+                android:id="@+id/containerValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/containerCategory"
                 android:orientation="horizontal">
 
                 <EditText
@@ -102,6 +135,9 @@
             </LinearLayout>
 
             <TextView
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/containerValue"
                 android:id="@+id/lblDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,29 +145,15 @@
                 android:text="Descriptional (optional)"
                 android:textSize="18sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/txtDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin_half"
-                android:hint="Expense Title"
-                app:counterEnabled="true"
-                app:counterMaxLength="30"
-                app:hintAnimationEnabled="true"
-                app:hintEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtExTitle"
-                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="ex: Lunch at food court"
-                    android:inputType="textCapSentences"
-                    android:maxLength="30"
-                    android:maxLines="1"
-                    android:textSize="18sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Input Description"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblDescription" />
 
             <!--<ImageView
                 android:id="@+id/imgExpense"
@@ -145,7 +167,7 @@
                 android:padding="@dimen/activity_horizontal_margin_triple"
                 android:src="@drawable/ic_image_black_24dp" />-->
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

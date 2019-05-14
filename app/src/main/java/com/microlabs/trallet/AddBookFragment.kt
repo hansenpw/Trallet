@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.microlabs.trallet.base.hideKeyboard
 import com.microlabs.trallet.databinding.FragmentAddBookBinding
 import com.microlabs.trallet.viewmodel.AddBookViewModel
 import kotlinx.android.synthetic.main.content_add_new_book.*
@@ -43,8 +45,12 @@ class AddBookFragment : Fragment() {
             } else {
                 if (args.book == null) {
                     viewModel.insertNewBook(title, txtEditDescription.text.toString())
+                    hideKeyboard()
+                    findNavController().popBackStack()
                 } else {
                     viewModel.updateBook(args.book!!.id, title, txtEditDescription.text.toString())
+                    hideKeyboard()
+                    findNavController().popBackStack()
                 }
             }
         }
