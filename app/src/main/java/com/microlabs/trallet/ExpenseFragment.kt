@@ -52,6 +52,7 @@ class ExpenseFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_expense, container, false)
+
         return binding.root
     }
 
@@ -71,6 +72,19 @@ class ExpenseFragment : Fragment() {
     private fun setUpView() {
         adapter = ExpenseRVAdapter(itemListener)
         val mLayoutManager = LinearLayoutManager(context)
+
+        // HAVE TO CALL THIS SO LISTENER GET CALLED
+        binding.rvExpenseList.requestApplyInsets()
+
+        binding.rvExpenseList.setOnApplyWindowInsetsListener { v, insets ->
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, insets.systemWindowInsetBottom)
+            val layoutParams = binding.fab.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.bottomMargin += insets.systemWindowInsetBottom
+            binding.fab.layoutParams = layoutParams
+            // REMOVE LISTENER SO DON'T GET CALLED TWICE
+            binding.rvExpenseList.setOnApplyWindowInsetsListener(null)
+            insets.consumeSystemWindowInsets()
+        }
 
         binding.rvExpenseList.layoutManager = mLayoutManager
 //        rvExpenseList.itemAnimator = DefaultItemAnimator()
@@ -109,6 +123,8 @@ class ExpenseFragment : Fragment() {
 //            context!!.startActivity<AddExpensesActivity>("bookId" to args.book.id)
 //            presenter.addNewExpense()
         }
+
+        (activity as MainActivity).binding.toolbar.menu.clear()
     }
 
     private fun createSnackbar() {

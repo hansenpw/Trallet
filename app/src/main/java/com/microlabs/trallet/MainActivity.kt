@@ -27,7 +27,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.toolbar)
+//        setSupportActionBar(binding.toolbar)
+
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
         setup()
 
@@ -57,6 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {

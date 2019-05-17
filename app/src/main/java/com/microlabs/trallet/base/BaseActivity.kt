@@ -11,7 +11,7 @@ abstract class BaseActivity<A : ViewDataBinding, B : ViewModel> : AppCompatActiv
     abstract val layout: Int
     protected lateinit var viewModel: B
         private set
-    protected lateinit var binding: A
+    lateinit var binding: A
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {

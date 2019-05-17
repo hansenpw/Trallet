@@ -71,6 +71,11 @@ open class ExpenseActivity : AppCompatActivity(), ExpenseActivityView {
         adapter = ExpenseRVAdapter(itemListener)
         val mLayoutManager = LinearLayoutManager(applicationContext)
 
+        binding.content.rvExpenseList.setOnApplyWindowInsetsListener { v, insets ->
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, insets.systemWindowInsetBottom)
+            insets
+        }
+
         binding.content.rvExpenseList.layoutManager = mLayoutManager
 //        rvExpenseList.itemAnimator = DefaultItemAnimator()
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {

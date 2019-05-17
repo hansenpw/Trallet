@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvBooks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin_half">
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardElevation="8dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnEditCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/activity_horizontal_margin_half"
-                    android:alpha="0.35"
+                    android:alpha="0.5"
                     android:contentDescription="Edit Button"
-                    android:src="@drawable/ic_edit_black_24dp" />
+                    android:src="@drawable/ic_edit_black_24dp"
+                    android:tint="?attr/colorOnSurface" />
 
                 <RelativeLayout
-                    style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lblPrice">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDetails"
-                        style="?android:attr/buttonBarButtonStyle"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:text="DETAILS" />
 
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDelete"
-                        style="?android:attr/buttonBarButtonStyle"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:layout_toEndOf="@id/btnDetails"
                         android:text="DELETE"
-                        android:textColor="#c62828" />
+                        android:textColor="?attr/colorError" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAddExpense"
-                        style="?android:attr/buttonBarButtonStyle"
+                        style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -70,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/lblDescription"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lblTitle"
@@ -97,7 +100,7 @@
 
                 <TextView
                     android:id="@+id/lblTitle"
-                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/btnEditCard"
@@ -114,7 +117,7 @@
 
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.microlabs.trallet
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import com.microlabs.trallet.databinding.ActivitySettingsBinding
 import com.microlabs.trallet.repo.AppDatabase
@@ -49,6 +50,29 @@ class SettingsActivity : AppCompatActivity() {
                     it.dismiss()
                 }
             }.show()
+        }
+
+        binding.content.rbGroup.check(when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> R.id.rbSystem
+            AppCompatDelegate.MODE_NIGHT_NO -> R.id.rbLight
+            AppCompatDelegate.MODE_NIGHT_YES -> R.id.rbDark
+            else -> R.id.rbSystem
+        })
+
+        binding.content.rbGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rbSystem -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
+                R.id.rbDark -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                R.id.rbLight -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                else -> {
+                }
+            }
         }
     }
 

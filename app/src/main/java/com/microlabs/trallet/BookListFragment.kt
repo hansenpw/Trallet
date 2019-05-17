@@ -36,11 +36,27 @@ class BookListFragment : Fragment() {
         setup()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.rvBook.requestApplyInsets()
+
+        binding.rvBook.setOnApplyWindowInsetsListener { v, insets ->
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, insets.systemWindowInsetBottom)
+            val layoutParams = binding.fab.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.bottomMargin += insets.systemWindowInsetBottom
+            binding.rvBook.setOnApplyWindowInsetsListener(null)
+            insets.consumeSystemWindowInsets()
+        }
+    }
+
     private fun setup() {
         binding.rvBook.layoutManager = LinearLayoutManager(context)
         binding.rvBook.itemAnimator = DefaultItemAnimator()
         bookRVAdapter = BookRVAdapter(BookItemListener(this, validateDeleteBook))
         binding.rvBook.adapter = bookRVAdapter
+
+
 
         viewModel.loadBooks().observe(this, Observer {
             if (it.isEmpty()) {
@@ -56,6 +72,14 @@ class BookListFragment : Fragment() {
 
         binding.fab.setOnClickListener {
             findNavController().navigate(BookListFragmentDirections.actionBookListFragmentToAddBookFragment())
+        }
+
+        val toolbar = (activity as MainActivity).binding.toolbar
+        toolbar.inflateMenu(R.menu.menu_main)
+        toolbar.setOnMenuItemClickListener {item ->
+            if (item.itemId == R.id.menu_currency) context?.startActivity<CurrencyActivity>()
+            else if (item.itemId == R.id.menu_settings) context?.startActivity<SettingsActivity>()
+            true
         }
 
         setHasOptionsMenu(true)
@@ -95,6 +119,7 @@ class BookListFragment : Fragment() {
     class BookItemListener(val context: BookListFragment, val validateDeleteBook: (Book) -> Unit) {
         fun onDetailClick(bookId: Int, bookTitle: String) {
 //            context.startActivity<BookDetailActivity>("bookId" to bookId, "lblTitle" to bookTitle)
+            context.context?.startActivity<ExpenseActivity>("bookId" to bookId, "lblTitle" to bookTitle)
         }
 
         fun onDeleteClick(book: Book) {
@@ -113,7 +138,6 @@ class BookListFragment : Fragment() {
 
         fun onAddExpenseClick(book: Book) {
             context.findNavController().navigate(BookListFragmentDirections.actionBookListFragmentToExpenseFragment(book))
-//            context.startActivity<ExpenseActivity>("bookId" to bookId, "lblTitle" to bookTitle)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.microlabs.trallet.base
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.microlabs.trallet.BuildConfig
 import timber.log.Timber
 
@@ -15,6 +16,7 @@ class BaseApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        val defaultNightMode = AppCompatDelegate.getDefaultNightMode()
 //        Fabric.with(this, Crashlytics())
     }
 }

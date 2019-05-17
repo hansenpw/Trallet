@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvExpense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
         android:layout_marginRight="@dimen/activity_horizontal_margin_half"
-        android:layout_marginBottom="@dimen/activity_vertical_margin_half">
+        android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+        app:cardElevation="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,7 +50,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:textColor="#009900"
+                    android:textColor="@color/colorPrimary"
                     tools:text="Price" />
 
             </LinearLayout>
@@ -63,6 +65,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
                 android:alpha="0.7"
+                android:tint="?attr/colorOnSurface"
                 android:contentDescription="expense_category_indicator"
                 android:src="@drawable/ic_local_atm_black_24dp"/>
 
@@ -100,6 +103,6 @@
 
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
