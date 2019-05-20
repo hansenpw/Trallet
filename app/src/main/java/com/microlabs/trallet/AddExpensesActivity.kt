@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.microlabs.trallet.adapter.CategorySpinnerAdapter
 import com.microlabs.trallet.adapter.CurrencySpinnerAdapter
+import com.microlabs.trallet.database.Category
+import com.microlabs.trallet.database.Currency
+import com.microlabs.trallet.database.Expense
 import com.microlabs.trallet.databinding.ActivityAddExpensesBinding
-import com.microlabs.trallet.model.Category
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.viewmodel.AddExpenseViewModel
 import org.jetbrains.anko.toast
 

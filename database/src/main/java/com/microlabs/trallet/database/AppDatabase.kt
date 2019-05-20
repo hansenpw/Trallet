@@ -1,15 +1,11 @@
-package com.microlabs.trallet.repo
+package com.microlabs.trallet.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.microlabs.trallet.R
-import com.microlabs.trallet.model.Book
-import com.microlabs.trallet.model.Category
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.model.Expense
+import com.microlabs.trallet.repo.ExpenseDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

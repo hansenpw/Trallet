@@ -1,4 +1,4 @@
-package com.microlabs.trallet.model
+package com.microlabs.trallet.database
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.microlabs.trallet.BR
 import com.microlabs.trallet.BookListFragment
 import com.microlabs.trallet.R
+import com.microlabs.trallet.database.Book
 import com.microlabs.trallet.databinding.ItemBooksBinding
-import com.microlabs.trallet.model.Book
 
 /**
  * Book RecyclerView Adapter

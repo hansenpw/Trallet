@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.microlabs.trallet.adapter.ExpenseRVAdapter
+import com.microlabs.trallet.database.Expense
 import com.microlabs.trallet.databinding.FragmentExpenseBinding
-import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.viewmodel.ExpenseViewModel
 
 

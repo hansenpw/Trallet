@@ -5,8 +5,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import com.microlabs.trallet.database.AppDatabase
 import com.microlabs.trallet.databinding.ActivitySettingsBinding
-import com.microlabs.trallet.repo.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

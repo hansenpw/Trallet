@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.microlabs.trallet.database.Book
 import com.microlabs.trallet.databinding.ActivityAddNewBookBinding
-import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.AddBookViewModel
 import kotlinx.android.synthetic.main.content_add_new_book.*
 

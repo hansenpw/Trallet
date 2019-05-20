@@ -7,8 +7,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.microlabs.trallet.base.BaseActivity
+import com.microlabs.trallet.database.Book
 import com.microlabs.trallet.databinding.ActivityMainBinding
-import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.MainViewModel
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton

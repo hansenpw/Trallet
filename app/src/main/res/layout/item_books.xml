@@ -125,7 +125,7 @@
 
         <variable
             name="book"
-            type="com.microlabs.trallet.model.Book" />
+            type="com.microlabs.trallet.database.Book" />
 
         <!--<variable-->
         <!--name="itemListener"-->

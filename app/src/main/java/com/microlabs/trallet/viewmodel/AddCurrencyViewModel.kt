@@ -3,8 +3,8 @@ package com.microlabs.trallet.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.repo.AppDatabase
+import com.microlabs.trallet.database.AppDatabase
+import com.microlabs.trallet.database.Currency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

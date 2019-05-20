@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.AddCurrencyActivity
 import com.microlabs.trallet.R
-import com.microlabs.trallet.model.Currency
+import com.microlabs.trallet.database.Currency
 import kotlinx.android.synthetic.main.item_currency.view.*
 import org.jetbrains.anko.startActivity
 import java.text.DecimalFormat

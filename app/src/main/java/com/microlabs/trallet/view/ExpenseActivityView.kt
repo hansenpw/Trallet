@@ -1,6 +1,6 @@
 package com.microlabs.trallet.view
 
-import com.microlabs.trallet.model.Expense
+import com.microlabs.trallet.database.Expense
 
 /**
  * Created by Hansen on 4/24/2017.

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.microlabs.trallet.ExpenseActivity
 import com.microlabs.trallet.R
-import com.microlabs.trallet.model.Expense
+import com.microlabs.trallet.database.Expense
 import kotlinx.android.synthetic.main.item_expense.view.*
 import java.util.*
 

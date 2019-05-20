@@ -15,10 +15,10 @@ import androidx.navigation.fragment.navArgs
 import com.microlabs.trallet.adapter.CategorySpinnerAdapter
 import com.microlabs.trallet.adapter.CurrencySpinnerAdapter
 import com.microlabs.trallet.base.hideKeyboard
+import com.microlabs.trallet.database.Category
+import com.microlabs.trallet.database.Currency
+import com.microlabs.trallet.database.Expense
 import com.microlabs.trallet.databinding.FragmentAddExpenseBinding
-import com.microlabs.trallet.model.Category
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.model.Expense
 import com.microlabs.trallet.viewmodel.AddExpenseViewModel
 import org.jetbrains.anko.toast
 import timber.log.Timber

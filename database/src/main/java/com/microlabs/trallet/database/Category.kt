@@ -1,4 +1,4 @@
-package com.microlabs.trallet.model
+package com.microlabs.trallet.database
 
 import androidx.annotation.DrawableRes
 import androidx.room.ColumnInfo

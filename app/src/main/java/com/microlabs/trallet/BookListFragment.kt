@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.microlabs.trallet.adapter.BookRVAdapter
+import com.microlabs.trallet.database.Book
 import com.microlabs.trallet.databinding.FragmentBookListBinding
-import com.microlabs.trallet.model.Book
 import com.microlabs.trallet.viewmodel.MainViewModel
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton

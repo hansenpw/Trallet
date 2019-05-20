@@ -2,7 +2,7 @@ package com.microlabs.trallet.repo
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.microlabs.trallet.model.Expense
+import com.microlabs.trallet.database.Expense
 
 @Dao
 interface ExpenseDao {

@@ -9,9 +9,9 @@ import android.view.View.VISIBLE
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.microlabs.trallet.database.Currency
+import com.microlabs.trallet.database.Expense
 import com.microlabs.trallet.databinding.ActivityBookDetailBinding
-import com.microlabs.trallet.model.Currency
-import com.microlabs.trallet.model.Expense
 import org.jetbrains.anko.startActivity
 import java.text.NumberFormat
 
@@ -116,7 +116,7 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (binding.content.chart!!.visibility == View.VISIBLE) {
+        if (binding.content.chart.visibility == VISIBLE) {
             menu.getItem(0).isEnabled = false
         } else {
             menu.getItem(1).isEnabled = false
@@ -132,12 +132,12 @@ class BookDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when {
             item.itemId == R.id.menu_view_chart -> {
-                binding.content.chart!!.visibility = View.VISIBLE
+                binding.content.chart.visibility = VISIBLE
                 views.forEach { it.visibility = GONE }
                 invalidateOptionsMenu()
             }
             item.itemId == R.id.menu_view_list -> {
-                binding.content.chart!!.visibility = View.GONE
+                binding.content.chart.visibility = View.GONE
                 views.forEach { it.visibility = VISIBLE }
                 invalidateOptionsMenu()
             }

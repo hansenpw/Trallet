@@ -6,8 +6,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.microlabs.trallet.database.Currency
 import com.microlabs.trallet.databinding.ActivityAddNewCurrencyBinding
-import com.microlabs.trallet.model.Currency
 import com.microlabs.trallet.view.AddCurrencyActivityView
 import com.microlabs.trallet.viewmodel.AddCurrencyViewModel
 import org.jetbrains.anko.*
